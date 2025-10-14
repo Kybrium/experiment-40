@@ -1,0 +1,61 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: exp40_db
+    env_file: ./.env
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    command: [ "mysqld", "--default-authentication-plugin=mysql_native_password", "--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci" ]
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-p${MYSQL_ROOT_PASSWORD}" ]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+
+  backend:
+    build:
+      context: ../../backend # repo root
+      dockerfile: Dockerfile
+    container_name: exp40_backend
+    env_file: ./.env
+    command: [ "sh", "-c", "./entrypoint.sh" ]
+    working_dir: /app
+    ports:
+      - "8000:8000"
+    volumes:
+      - ../../backend:/app
+      - backend_venv:/venv
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ../../frontend # repo root
+      dockerfile: Dockerfile
+    container_name: exp40_frontend
+    env_file: ./.env
+    command: [ "npm", "run", "dev" ]
+    working_dir: /usr/src/app
+    ports:
+      - "3000:3000"
+    environment:
+      HOST: 0.0.0.0
+      PORT: 3000
+    volumes:
+      - ../../frontend:/usr/src/app
+      - frontend_node_modules:/usr/src/app/node_modules
+    depends_on:
+      - backend
+
+volumes:
+  db_data:
+  frontend_node_modules:
+  backend_venv:
