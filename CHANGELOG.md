@@ -20,7 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [Unreleased]
+## [DEVELOPMENT] Merge No.1 - 15.09.2025
 
 > Work in progress – changes merged but not yet deployed or versioned.
 
