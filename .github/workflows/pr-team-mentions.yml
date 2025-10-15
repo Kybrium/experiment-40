@@ -1,0 +1,84 @@
+name: PR Team Mentions
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, ready_for_review]
+
+permissions:
+  pull-requests: write
+  contents: read
+
+jobs:
+  route:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Detect changed paths
+        id: changes
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            backend:
+              - 'backend/**'
+            frontend:
+              - 'frontend/**'
+            devops:
+              - 'docker/**'
+              - '.github/**'
+              - 'Makefile'
+              - 'dev.ps1'
+            tests:
+              - 'tests/**'
+              - '__tests__/**'
+              - 'test/**'
+            docs:
+              - 'docs/**'
+            design:
+              - 'design/**'
+            product:
+              - 'product/**'
+            security:
+              - 'security/**'
+            data:
+              - 'data/**'
+            integrations:
+              - 'integrations/**'
+
+      - name: Comment mentions
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const mentions = [];
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const pr = context.payload.pull_request.number;
+
+            const changed = (k) => core.getInput(k) || (process.env[`changes_${k}`] ?? '');
+            const flags = {
+              backend:  "${{ steps.changes.outputs.backend }}",
+              frontend: "${{ steps.changes.outputs.frontend }}",
+              devops:   "${{ steps.changes.outputs.devops }}",
+              tests:    "${{ steps.changes.outputs.tests }}",
+              docs:     "${{ steps.changes.outputs.docs }}",
+              design:   "${{ steps.changes.outputs.design }}",
+              product:  "${{ steps.changes.outputs.product }}",
+              security: "${{ steps.changes.outputs.security }}",
+              data:     "${{ steps.changes.outputs.data }}",
+              integrations: "${{ steps.changes.outputs.integrations }}"
+            };
+
+            if (flags.backend === 'true') mentions.push('@Kybrium/backend');
+            if (flags.frontend === 'true') mentions.push('@Kybrium/frontend');
+            if (flags.devops === 'true') mentions.push('@Kybrium/devops');
+            if (flags.tests === 'true') mentions.push('@Kybrium/qa-testing');
+            if (flags.docs === 'true') mentions.push('@Kybrium/documentation');
+            if (flags.design === 'true') mentions.push('@Kybrium/design-ux');
+            if (flags.product === 'true') mentions.push('@Kybrium/product-management');
+            if (flags.security === 'true') mentions.push('@Kybrium/security', '@Kybrium/leads-supervisors');
+            if (flags.data === 'true') mentions.push('@Kybrium/data-analytics');
+            if (flags.integrations === 'true') mentions.push('@Kybrium/integrations');
+
+            if (mentions.length === 0) return;
+
+            const body = `Notifying: ${mentions.join(' ')}\n\n> Auto-routed based on changed paths.`;
+            await github.rest.issues.createComment({ owner, repo, issue_number: pr, body });
