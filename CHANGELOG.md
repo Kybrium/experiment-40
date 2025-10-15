@@ -20,6 +20,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [DEVELOPMENT] Merge No.2 - 15.09.2025
+
+### Changed
+
+- Added phpMyAdmin browser interface on localhost:8080
+
+---
+
 ## [DEVELOPMENT] Merge No.1 - 15.09.2025
 
 ### Changed
