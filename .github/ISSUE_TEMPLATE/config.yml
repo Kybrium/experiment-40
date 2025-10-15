@@ -7,9 +7,3 @@ contact_links:
   - name: 📚 Project Docs
     url: https://github.com/Kybrium/experiment-40#-navigation
     about: Read the setup and usage documentation before opening an issue.
-
-defaults:
-  labels:
-    - needs-triage
-  assignees:
-    - MaxCherya

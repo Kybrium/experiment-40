@@ -1,0 +1,68 @@
+name: Issue Triage by Team
+on:
+  issues:
+    types: [opened, edited]
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install js-yaml
+        run: npm install js-yaml
+
+      - name: Label and assign by team
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const yaml = require('js-yaml');
+
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const issue = context.payload.issue;
+            const number = issue.number;
+
+            // 1) Parse selected team from Issue Form body
+            const body = issue.body || "";
+            // Issue Forms render headings like "### Area / Team"
+            const match = body.match(/### Area \/ Team\s*\n(.+)\n/i);
+            if (!match) { return; }
+            const team = match[1].trim();
+
+            const allowed = [
+              "Backend","Frontend","DevOps","QA & Testing","Integrations",
+              "Data & Analytics","Product Management","Design & UX","Documentation","Security"
+            ];
+            if (!allowed.includes(team)) { return; }
+
+            // 2) Ensure team label exists on the issue
+            const labels = (issue.labels || []).map(l => (typeof l === 'string' ? l : l.name));
+            if (!labels.includes(team)) {
+              await github.rest.issues.addLabels({ owner, repo, issue_number: number, labels: [team] });
+            }
+
+            // 3) Load roster and pick a deterministic assignee (rotation)
+            const rosterPath = '.github/team-rosters.yml';
+            const roster = yaml.load(fs.readFileSync(rosterPath, 'utf8')) || {};
+            const members = roster[team] || [];
+
+            if (members.length === 0) { 
+              // Nothing to assign; optional: ping Leads or leave as needs-triage
+              return; 
+            }
+
+            const currentAssignees = (issue.assignees || []).map(a => a.login);
+            // Rotate using issue number
+            const candidate = members[number % members.length];
+
+            if (candidate && !currentAssignees.includes(candidate)) {
+              await github.rest.issues.addAssignees({
+                owner, repo, issue_number: number, assignees: [candidate]
+              });
+            }

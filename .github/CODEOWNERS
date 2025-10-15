@@ -1,0 +1,25 @@
+# Engineering
+backend/**              @Kybrium/backend
+frontend/**             @Kybrium/frontend
+docker/**               @Kybrium/devops
+.github/**              @Kybrium/devops
+Makefile                @Kybrium/devops
+dev.ps1                 @Kybrium/devops
+
+# QA / tests
+tests/**                @Kybrium/qa-testing
+__tests__/**            @Kybrium/qa-testing
+test/**                 @Kybrium/qa-testing
+
+# Product / Docs / Design
+docs/**                 @Kybrium/documentation
+design/**               @Kybrium/design-ux
+product/**              @Kybrium/product-management
+
+# Security & Integrations & Data
+security/**             @Kybrium/security
+integrations/**         @Kybrium/integrations
+data/**                 @Kybrium/data-analytics
+
+# Fallback
+*                       @Kybrium/leads-supervisors
