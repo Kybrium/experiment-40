@@ -1,0 +1,29 @@
+name: Task
+description: Create a task card
+title: "[Task]: "
+labels: ["needs-triage"]
+body:
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area / Team
+      description: Choose the area responsible
+      options:
+        - Backend
+        - Frontend
+        - DevOps
+        - QA & Testing
+        - Integrations
+        - Data & Analytics
+        - Product Management
+        - Design & UX
+        - Documentation
+        - Security
+    validations:
+      required: true
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+    validations:
+      required: true
