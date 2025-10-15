@@ -18,28 +18,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   ## [v1.0.0] – Initial Release
   ```
 
-
-
-
 ---
 
-## [DEVELOPMENT] Merge No.3 - 15.09.2025
-
-### Changed
+## [DEVELOPMET] Merge No.3 - 15.09.2025
 
 - Initialized the structure of docs in the repo
 
-## [DEVELOPMENT] Merge No.2 - 15.09.2025
+---
 
-### Changed
+## [DEVELOPMENT] Merge No.2 - 15.09.2025
 
 - Added phpMyAdmin browser interface on localhost:8080
 
 ---
 
 ## [DEVELOPMENT] Merge No.1 - 15.09.2025
-
-### Changed
 
 - Added team-rosters.yml to rotate members of specific teams on tasks.
 - Added CODEOWNERS file for automatic PRs assignment
