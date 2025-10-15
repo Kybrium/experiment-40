@@ -18,7 +18,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   ## [v1.0.0] – Initial Release
   ```
 
+
+
+
 ---
+
+## [DEVELOPMENT] Merge No.3 - 15.09.2025
+
+### Changed
+
+- Initialized the structure of docs in the repo
 
 ## [DEVELOPMENT] Merge No.2 - 15.09.2025
 
