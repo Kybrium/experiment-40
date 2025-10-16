@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      DJANGO_SETTINGS_MODULE: backend.settings
+      PYTHONPATH: ${{ github.workspace }}
       SECRET_KEY: ci-secret-key
       DEBUG: "0"
       DATABASE_URL: sqlite:///./ci.sqlite3
