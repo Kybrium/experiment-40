@@ -20,7 +20,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [DEVELOPMET] Merge No.5 - 16.10.2025
+## [DEVELOPMENT] Merge No.6 - 16.10.2025
+- Implemented `MaintenanceModeMiddleware` (returns 503 when `MAINTENANCE_MODE=True`)
+- Added `/ping/` healthcheck endpoint (JSON `{"status":"ok"}`)
+- Wired routes in `core/urls.py` (includes `/ping/` and `/api/accounts/`)
+- Added tests for maintenance middleware using `/ping/`
+- Created `backend/core/README.md` documenting middleware, settings, and healthcheck
+
+
+---
+
+## [DEVELOPMENT] Merge No.5 - 16.10.2025
 - Initialized User model
 - Added `MeSerializer` for read-only user data representation  
 - Implemented `/api/accounts/me/` endpoint for authenticated user info  
@@ -30,7 +40,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [DEVELOPMET] Merge No.4 - 16.10.2025
+## [DEVELOPMENT] Merge No.4 - 16.10.2025
 
 - Fixed entrypoint.sh so venv sees it
 - Fixed Dockerfile for backend to init venv correctly
@@ -40,7 +50,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [DEVELOPMET] Merge No.3 - 15.10.2025
+## [DEVELOPMENT] Merge No.3 - 15.10.2025
 
 - Initialized the structure of docs in the repo
 
