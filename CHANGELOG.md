@@ -20,7 +20,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [DEVELOPMET] Merge No.3 - 16.10.2025
+## [DEVELOPMET] Merge No.5 - 16.10.2025
+- Initialized User model
+- Added `MeSerializer` for read-only user data representation  
+- Implemented `/api/accounts/me/` endpoint for authenticated user info  
+- Added unit tests for `User` model, `MeSerializer`, and `UserView`  
+- Added integration tests for JWT authentication flow  
+- Created documentation for backend and `accounts` app
+
+---
+
+## [DEVELOPMET] Merge No.4 - 16.10.2025
 
 - Fixed entrypoint.sh so venv sees it
 - Fixed Dockerfile for backend to init venv correctly
