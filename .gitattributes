@@ -1,0 +1,8 @@
+# Use LF on Unix-y files no matter the OS
+*.sh       text eol=lf
+*.bash     text eol=lf
+*.env      text eol=lf
+Dockerfile text eol=lf
+*.yml      text eol=lf
+*.yaml     text eol=lf
+Makefile   text eol=lf
