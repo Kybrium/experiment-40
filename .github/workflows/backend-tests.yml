@@ -39,11 +39,9 @@ jobs:
           pip install -r backend/requirements.txt
 
       - name: Run migrations
-        working-directory: backend
         run: |
-          python manage.py migrate --noinput
+          python backend/manage.py migrate --noinput
 
       - name: Run tests
-        working-directory: backend
         run: |
-          python manage.py test --parallel --verbosity 2
+          python backend/manage.py test --parallel --verbosity 2
