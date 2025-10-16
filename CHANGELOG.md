@@ -20,19 +20,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [DEVELOPMET] Merge No.3 - 15.09.2025
+## [DEVELOPMET] Merge No.3 - 16.10.2025
+
+- Fixed entrypoint.sh so venv sees it
+- Fixed Dockerfile for backend to init venv correctly
+- Removed from volume venv to not duplicate it
+- In Makefile and dev.ps1 added commands to access shells of backend/frontend
+- Updated README.md for dev docker
+
+---
+
+## [DEVELOPMET] Merge No.3 - 15.10.2025
 
 - Initialized the structure of docs in the repo
 
 ---
 
-## [DEVELOPMENT] Merge No.2 - 15.09.2025
+## [DEVELOPMENT] Merge No.2 - 15.10.2025
 
 - Added phpMyAdmin browser interface on localhost:8080
 
 ---
 
-## [DEVELOPMENT] Merge No.1 - 15.09.2025
+## [DEVELOPMENT] Merge No.1 - 15.10.2025
 
 - Added team-rosters.yml to rotate members of specific teams on tasks.
 - Added CODEOWNERS file for automatic PRs assignment

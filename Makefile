@@ -14,3 +14,9 @@ logs:
 
 ps:
 	$(COMPOSE) ps
+
+sh-backend:
+	$(COMPOSE) exec backend sh
+
+sh-frontend:
+	$(COMPOSE) exec frontend sh

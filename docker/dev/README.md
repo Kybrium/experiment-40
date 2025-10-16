@@ -22,11 +22,15 @@
 
      - **start:** `.\dev.ps1 -cmd up`
      - **stop:** `.\dev.ps1 -cmd down`
+     - **Backend shell:** `.\dev.ps1 -cmd sh-backend`
+     - **Frontend shell:** `.\dev.ps1 -cmd sh-frontend`
 
    - **macOS/Linux:**
 
      - **start:** `make up`
      - **stop:** `make down`
+     - **Backend shell:** `make sh-backend`
+     - **Frontend shell:** `make sh-frontend`
 
 6) **Apps**
 
@@ -34,36 +38,7 @@
    - Backend: [http://localhost:8000](http://localhost:8000)
    - phpMyAdmin: [http://127.0.0.1:8080](http://127.0.0.1:8080)
 
-7) **Shell access**
-
-   ```bash
-   docker compose -f docker/dev/compose.yml exec backend sh
-   docker compose -f docker/dev/compose.yml exec frontend sh
-   ```
-
-8) **Add a dependency**
-
-   - **Backend (Python)**
-
-     - Edit `backend/requirements.txt`, then:
-
-       ```bash
-       docker compose -f docker/dev/compose.yml up -d --build backend
-       ```
-
-     - (quick) inside container:
-
-       ```bash
-       docker compose -f docker/dev/compose.yml exec backend sh -lc "pip install <pkg> && pip freeze > requirements.txt"
-       ```
-
-   - **Frontend (Node)**
-
-     ```bash
-     docker compose -f docker/dev/compose.yml exec frontend npm install <pkg>
-     ```
-
-9) **Known bugs / quick fixes**
+7) **Known bugs / quick fixes**
 
    - **`entrypoint.sh` permission denied:**
      `chmod +x backend/entrypoint.sh`

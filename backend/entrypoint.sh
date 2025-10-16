@@ -7,5 +7,6 @@ until nc -z "$DB_HOST" "$DB_PORT"; do
 done
 echo "✅ MySQL is up."
 
-python manage.py migrate --noinput
-python manage.py runserver 0.0.0.0:8000
+/venv/bin/python -m pip show django || true
+/venv/bin/python manage.py migrate --noinput
+exec /venv/bin/python manage.py runserver 0.0.0.0:8000

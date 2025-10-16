@@ -13,10 +13,11 @@ RUN python -m venv $VIRTUAL_ENV
 
 WORKDIR /app
 
-COPY requirements.txt /app/requirements.txt
-RUN pip install --upgrade pip && pip install -r /app/requirements.txt
+COPY requirements.txt .
+RUN $VIRTUAL_ENV/bin/pip install --upgrade pip \
+    && $VIRTUAL_ENV/bin/pip install -r requirements.txt
 
-COPY . /app
+COPY . .
 
 RUN sed -i 's/\r$//' /app/entrypoint.sh || true
 
