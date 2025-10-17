@@ -19,7 +19,7 @@ PROJECT_NAME = "Experiment 40"
 # ========== MAIN SETTINGS ==========
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "dev-secret")
-
+DEBUG = os.getenv("DJANGO_DEBUG", os.getenv("DJANGO-DEBUG", "true")).lower() == "true"
 HOSTS = os.getenv("DJANGO_HOSTS", "localhost,127.0.0.1").split(",")
 HOSTS_URLS = os.getenv("DJANGO_HOSTS_URLS","http://localhost:3000,http://127.0.0.1:3000").split(",")
 ALLOWED_HOSTS = HOSTS
@@ -122,6 +122,45 @@ else:
 
 CONN_MAX_AGE = 60
 # ==============================
+
+
+# ========== LOGGER ==========
+LOG_LEVEL = "DEBUG" if DEBUG else "INFO"
+DJANGO_LOG_FORMAT = (
+    "[%(asctime)s] [%(levelname)s] [%(name)s] | %(message)s "
+    "(%(filename)s:%(lineno)d)"
+)
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+
+    "formatters": {
+        "console": {
+            "format": DJANGO_LOG_FORMAT,
+            "datefmt": "%d.%m.%Y %H:%M:%S",
+        }
+    },
+
+    "handlers": {
+        "console": {
+            "level": LOG_LEVEL,
+            "class": "logging.StreamHandler",
+            "stream": sys.stdout,
+            "formatter": "console",
+        },
+    },
+
+    "loggers": {
+        "core": {"handlers": ["console"], "level": LOG_LEVEL, "propagate": False},
+        "django": {"handlers": ["console"], "level": LOG_LEVEL, "propagate": False},
+        "django.request": {"handlers": ["console"], "level": "WARNING", "propagate": False},
+        "django.db.backends": {"handlers": ["console"], "level": "INFO", "propagate": False},
+    },
+
+    "root": {"handlers": ["console"], "level": LOG_LEVEL},
+}
+# ============================
 
 
 # ========== AUTH ==========
