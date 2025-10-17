@@ -20,6 +20,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [DEVELOPMENT] Merge No.8 - 17.10.2025
+- Added admin panel with 2FA on backend
+
+---
+
 ## [DEVELOPMENT] Merge No.7 - 17.10.2025
 - Configured Django Logger
 
