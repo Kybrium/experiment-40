@@ -7,6 +7,7 @@ Each Django app has its own README file that describes its models, serializers, 
 ## 📚 Navigation
 
 - [Accounts Docs](accounts/README.md)
+- [Core Docs](core/README.md)
 
 ---
 
