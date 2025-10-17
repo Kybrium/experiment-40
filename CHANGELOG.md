@@ -20,6 +20,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [DEVELOPMENT] Merge No.10 - 17.10.2025
+- Configured jest plugin for testings on frontend
+
+---
+
 ## [DEVELOPMENT] Merge No.9 - 17.10.2025
 - Added basic styling configurations for tailwind
 - Updated documentation for frontend
