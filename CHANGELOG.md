@@ -20,6 +20,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [DEVELOPMENT] Merge No.7 - 17.10.2025
+- Configured Django Logger
+
+---
+
 ## [DEVELOPMENT] Merge No.6 - 16.10.2025
 - Implemented `MaintenanceModeMiddleware` (returns 503 when `MAINTENANCE_MODE=True`)
 - Added `/ping/` healthcheck endpoint (JSON `{"status":"ok"}`)
