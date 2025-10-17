@@ -23,6 +23,8 @@ Each Django app has its own README file that describes its models, serializers, 
 * **SimpleJWT 5.5.1** — provides secure JWT-based authentication for API clients.
 * **PyJWT 2.10.1** — underlying JSON Web Token implementation used by SimpleJWT.
 * **django-cors-headers 4.9.0** — enables safe cross-origin requests (CORS) from frontend clients.
+* **django-otp 1.6.1** — adds two-factor authentication (2FA) support for Django admin and user logins.
+* **qrcode 8.2** — generates QR codes used for TOTP device setup in two-factor authentication.
 
 **Database & ORM**
 

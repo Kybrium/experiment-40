@@ -1,160 +1,51 @@
-# ⚙️ Core App Docs
+# ⚙️ Core App Overview
 
-The **Core** app is the central configuration and entry point of the backend.  
-It contains project-wide settings, middleware, routing, and utility endpoints used for monitoring and maintenance.
-
----
-
-## 🧱 Overview
-
-- Defines global **Django settings**, **middleware**, and **URL routing**
-- Implements `MaintenanceModeMiddleware` for quickly enabling maintenance mode
-- Provides a `/ping/` endpoint for uptime monitoring and health checks
-- Handles static file configuration (via **WhiteNoise**) and security middleware
-- Acts as the main project package (`core.settings`, `core.urls`, `core.wsgi`)
+The **Core** app serves as the central hub of the backend — managing configuration, middleware, routing, and maintenance utilities used across the project.
 
 ---
 
-## 🔧 Key Components
+## 🧱 Responsibilities
 
-### **1️⃣ Middleware**
-`core/middlewares.py`
-```python
-from django.conf import settings
-from django.http import HttpResponse
-
-class MaintenanceModeMiddleware:
-    """
-    Middleware that checks if the site is in maintenance mode.
-    If MAINTENANCE_MODE=True in settings, all requests
-    return a 503 Service Unavailable response.
-    """
-    def __init__(self, get_response):
-        self.get_response = get_response
-
-    def __call__(self, request):
-        if getattr(settings, 'MAINTENANCE_MODE', False):
-            return HttpResponse("Site is under maintenance", status=503)
-        return self.get_response(request)
-````
-
-**How to enable maintenance mode**
-
-```bash
-# In your .env file
-MAINTENANCE_MODE=True
-```
-
-or dynamically in Django shell:
-
-```python
-from django.conf import settings
-settings.MAINTENANCE_MODE = True
-```
+* Defines **global Django settings**, middleware, and routing.
+* Manages **maintenance mode** via `MaintenanceModeMiddleware`.
+* Provides a `/ping/` healthcheck endpoint for uptime monitoring.
+* Integrates **WhiteNoise** for static file serving in production.
+* Handles **custom admin logic** — including **2FA-secured admin (django-otp)** in production.
 
 ---
 
-### **2️⃣ Healthcheck Endpoint**
+## 🔐 Admin Access
 
-`core/views.py`
-
-```python
-from django.http import JsonResponse
-
-def ping(request):
-    """Simple healthcheck endpoint."""
-    return JsonResponse({"status": "ok"}, status=200)
-```
-
-`core/urls.py`
-
-```python
-from django.contrib import admin
-from django.urls import path, include
-from core import views
-
-urlpatterns = [
-    path("admin/", admin.site.urls),
-    path("ping/", views.ping, name="ping"),
-    path("api/accounts/", include("accounts.urls")),
-]
-```
-
-✅  Accessible at:
-
-```
-GET /ping/
-```
-
-Response:
-
-```json
-{"status": "ok"}
-```
+* **Development:** uses the default Django Admin.
+* **Production:** uses a secure **OTP-based Admin** (`django-otp` + `qrcode`) for two-factor authentication.
+* This ensures admin access requires both credentials and a verified TOTP code.
 
 ---
 
-### **3️⃣ Settings Highlights**
+## 🧩 Key Features
 
-`core/settings.py`
-
-* **Database** — configurable via `DATABASE_URL` or environment vars
-  (supports SQLite for dev, MySQL for production)
-* **Authentication** — JWT (via `djangorestframework-simplejwt`)
-* **CORS** — managed by `django-cors-headers`
-* **Static files** — served by `WhiteNoise`
-* **Custom user model** — `accounts.User`
-* **Maintenance mode** — toggled with `MAINTENANCE_MODE` flag
+| Feature                  | Description                                                            |
+| ------------------------ | ---------------------------------------------------------------------- |
+| **Maintenance Mode**     | Toggleable via `MAINTENANCE_MODE=True` (returns 503 for all requests). |
+| **Healthcheck Endpoint** | `/ping/` → returns `{"status": "ok"}` for monitoring.                  |
+| **Custom User Model**    | Centralized in `accounts.User`, integrated across admin and auth.      |
+| **Static Files**         | Served efficiently with **WhiteNoise**.                                |
+| **Security**             | JWT authentication, CORS management, and optional 2FA admin.           |
 
 ---
 
-### **4️⃣ Tests**
+## 🧪 Quick Checks
 
-`core/tests/test_middlewares.py`
+**Healthcheck:**
+`GET /ping/ → {"status": "ok"}`
 
-```python
-from django.test import TestCase, override_settings
+**Enable maintenance mode:**
+`.env → MAINTENANCE_MODE=True`
 
-class MaintenanceModeMiddlewareTests(TestCase):
-    @override_settings(MAINTENANCE_MODE=False)
-    def test_pass_through_when_disabled(self):
-        res = self.client.get("/ping/")
-        self.assertEqual(res.status_code, 200)
-        self.assertEqual(res.json(), {"status": "ok"})
-
-    @override_settings(MAINTENANCE_MODE=True)
-    def test_returns_503_when_enabled(self):
-        res = self.client.get("/ping/")
-        self.assertEqual(res.status_code, 503)
-        self.assertEqual(res.content, b"Site is under maintenance")
-```
+**Admin (Prod):**
+2FA-enabled via TOTP app (e.g. Google Authenticator).
 
 ---
 
-## 🧪 Example Usage
-
-### Check if backend is up
-
-```bash
-curl http://localhost:8000/ping/
-```
-
-Response:
-
-```json
-{"status": "ok"}
-```
-
-### Enable maintenance mode (temporarily)
-
-```bash
-export MAINTENANCE_MODE=True
-python manage.py runserver
-```
-
-Response for any request:
-
-```
-HTTP/1.1 503 Service Unavailable
-Site is under maintenance
-```
+**In short:**
+The Core app ties together system-wide behavior — configuration, security (2FA admin), middleware, and monitoring — providing a stable foundation for the entire backend.
