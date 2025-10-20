@@ -1,30 +1,38 @@
 from django.test import TestCase
+from django.db import IntegrityError
 from accounts.models import User
+from .factories import UserFactory
 
 
 class UserModelTests(TestCase):
+    """Tests verifying basic behavior of the User model."""
+
     def test_create_user(self):
-        """User can be created with a username and password."""
-        user = User.objects.create_user(username="player1", password="strongpass123")
+        """Factory creates a valid user; passwords are hashed."""
+        user = UserFactory(username="player1")
         self.assertEqual(user.username, "player1")
-        self.assertTrue(user.check_password("strongpass123"))
+        self.assertTrue(user.check_password("StrongPass123"))
         self.assertFalse(user.is_staff)
         self.assertTrue(user.is_active)
 
     def test_create_superuser(self):
-        """Superuser has proper flags set."""
-        admin = User.objects.create_superuser(username="admin", password="adminpass123")
+        """Superuser factory sets proper permission flags."""
+        admin = User.objects.create_superuser(
+            username="admin",
+            password="adminpass123",
+        )
         self.assertTrue(admin.is_staff)
         self.assertTrue(admin.is_superuser)
         self.assertTrue(admin.is_active)
+        self.assertTrue(admin.check_password("adminpass123"))
 
     def test_str_representation(self):
-        """User __str__ returns username."""
-        user = User.objects.create_user(username="steve", password="password")
+        """User string representation returns the username."""
+        user = UserFactory(username="steve")
         self.assertEqual(str(user), "steve")
 
     def test_unique_username(self):
-        """Username must be unique."""
-        User.objects.create_user(username="alex", password="pass")
-        with self.assertRaises(Exception):
-            User.objects.create_user(username="alex", password="anotherpass")
+        """Usernames must be unique in the database."""
+        UserFactory(username="alex")
+        with self.assertRaises(IntegrityError):
+            UserFactory(username="alex")

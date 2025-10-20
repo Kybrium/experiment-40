@@ -13,5 +13,6 @@ urlpatterns = [
 
     # User
     path("me/", UserView.as_view(), name="me"),
+    path("register/", UserView.as_view(), name="register_user")
     
 ]
