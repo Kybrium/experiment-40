@@ -1,0 +1,14 @@
+@theme {
+  /* BRAND FONTS */
+  --font-display: "Orbitron", sans-serif;
+  --font-sans: "Inter", sans-serif;
+
+  /* BRAND COLORS */
+  --color-background: #050008;
+  --color-surface-card: #0E0014;
+  --color-primary-accent: #9D00FF;
+  --color-secondary-accent: #00FFFF;
+  --color-text-primary: #E0E0E0;
+  --color-text-muted: #8A8A8A;
+  --color-danger-error: #FF3355;
+};
