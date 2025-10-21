@@ -20,6 +20,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [DEVELOPMENT] Merge No.11 - 21.10.2025
+- Added registration endpoint on backend
+- Added factory_boy
+- Adjusted all tests for factory_boy and Faker
+- Added tests for registration endpoint and serializer
+- Updated docs
+
+---
+
 ## [DEVELOPMENT] Merge No.10 - 17.10.2025
 - Configured jest plugin for testings on frontend
 
