@@ -45,13 +45,18 @@
 
 @layer utilities {
 
+    /* ========== MODALS ========== */
+    .auth-modal {
+        @apply flex flex-col items-center w-full lg:max-w-xl max-w-[90%] p-8 rounded-2xl;
+    }
+
     /* ========== LAYOUTS ========== */
     .centered-display {
         @apply flex flex-col items-center justify-center w-full;
     }
 
     .centered-row-display {
-        @apply flex flex-row items-center align-middle justify-evenly w-full;
+        @apply flex lg:flex-row items-center align-middle justify-evenly w-full md:flex-col;
     }
 
 
@@ -153,7 +158,7 @@
 
     /* ========== INPUT FIELDS ========== */
     .input {
-    @apply w-full max-w-md px-4 py-3 rounded-xl font-sans text-base text-text-primary
+    @apply w-full px-4 py-3 rounded-xl font-sans text-base text-text-primary
             bg-surface-card border border-text-muted outline-none transition-all
             duration-200 placeholder-text-muted;
     }

@@ -1,7 +1,9 @@
+import RegistrationModal from "@/components/auth/RegistrationModal";
+
 export default function Home() {
   return (
-    <main>
-      <p>Experiment 40</p>
+    <main className="min-h-screen bg-background centered-display">
+      <RegistrationModal />
     </main>
   );
 }
