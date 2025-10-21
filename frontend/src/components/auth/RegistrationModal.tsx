@@ -2,7 +2,6 @@
 
 import { RegistrationForm } from "@/types/auth";
 import Link from "next/link";
-import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FaUser } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
@@ -15,7 +14,6 @@ const RegistrationModal: React.FC = () => {
         mode: 'onChange'
     });
     const passwordValue = watch('password');
-    const [showPassword, setShowPassword] = useState(false);
 
     const onSubmit: SubmitHandler<RegistrationForm> = (data) => {
         console.log(data);
