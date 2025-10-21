@@ -1,7 +1,10 @@
 'use client';
 
+import { registerUser } from "@/endpoints/auth";
 import { RegistrationForm } from "@/types/auth";
+import { useMutation } from "@tanstack/react-query";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FaUser } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
@@ -9,14 +12,28 @@ import { RiLockPasswordFill } from "react-icons/ri";
 
 const RegistrationModal: React.FC = () => {
 
+    const router = useRouter();
+
     // FORM SETTINGS
     const { register, handleSubmit, watch, formState: { errors } } = useForm<RegistrationForm>({
         mode: 'onChange'
     });
     const passwordValue = watch('password');
 
+    // TANSTACK
+    const { mutate, isPending, isSuccess, error } = useMutation({
+        mutationFn: registerUser,
+        onSuccess: () => {
+            router.push('/dashboard');
+        },
+        onError: (err: any) => {
+            alert(err);
+        }
+    })
+
     const onSubmit: SubmitHandler<RegistrationForm> = (data) => {
-        console.log(data);
+        mutate(data);
+        alert('Done!')
     }
 
     return (
