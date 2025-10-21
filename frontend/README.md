@@ -37,6 +37,7 @@ This layer handles the client-side experience, visuals, and UI logic for the ent
 
 * **[React Hook Form](https://react-hook-form.com/)** – performant, type-safe form validation and management
 * **[@tanstack/react-query](https://tanstack.com/query/latest)** – server state management, caching, and async data synchronization
+* **[React Toastify](https://fkhadra.github.io/react-toastify/introduction)** – elegant toast notifications for user feedback
 * **[React Icons](https://react-icons.github.io/react-icons/)** – unified icon library wrapper for Font Awesome, Material, and more
 
 ---

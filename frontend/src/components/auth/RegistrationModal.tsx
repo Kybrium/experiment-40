@@ -9,6 +9,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { FaUser } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
+import { toast } from "react-toastify";
 
 const RegistrationModal: React.FC = () => {
 
@@ -24,16 +25,16 @@ const RegistrationModal: React.FC = () => {
     const { mutate, isPending, isSuccess, error } = useMutation({
         mutationFn: registerUser,
         onSuccess: () => {
-            router.push('/dashboard');
+            toast.success('Registration successfull.');
+            setTimeout(() => router.push('/dashboard'), 1200);
         },
         onError: (err: any) => {
-            alert(err);
+            toast.error(err.message);
         }
     })
 
     const onSubmit: SubmitHandler<RegistrationForm> = (data) => {
         mutate(data);
-        alert('Done!')
     }
 
     return (
