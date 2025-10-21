@@ -18,6 +18,8 @@ This layer handles the client-side experience, visuals, and UI logic for the ent
 * **[@react-three/rapier](https://github.com/pmndrs/react-three-rapier)** – real-time 3D physics engine
 * **[TailwindCSS 4](https://tailwindcss.com/)** – design system, theming, and utility styling
 
+---
+
 ### 🧰 Tooling
 
 * **[TypeScript 5](https://www.typescriptlang.org/)** – full static typing
@@ -28,6 +30,15 @@ This layer handles the client-side experience, visuals, and UI logic for the ent
   * **@eslint/eslintrc** – ESLint configuration helpers
 * **[PostCSS](https://postcss.org/)** (via `@tailwindcss/postcss`) – CSS processing and optimization
 * **[Node.js 20+](https://nodejs.org/)** – runtime environment
+
+---
+
+### 🧩 UI & Form Handling
+
+* **[React Hook Form](https://react-hook-form.com/)** – performant, type-safe form validation and management
+* **[React Icons](https://react-icons.github.io/react-icons/)** – unified icon library wrapper for Font Awesome, Material, and more
+
+---
 
 ### 🧪 Testing
 
