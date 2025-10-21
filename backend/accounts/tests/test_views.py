@@ -4,19 +4,21 @@ from rest_framework import status
 from django.urls import reverse
 
 from accounts.views import UserView
-from accounts.models import User
+from .factories import UserFactory
 
 
 class MeViewTests(TestCase):
+    """Tests for the /api/accounts/me/ endpoint (UserView)."""
+
     def setUp(self):
         self.factory = APIRequestFactory()
         self.view = UserView.as_view()
-        self.user = User.objects.create_user(
+        self.user = UserFactory(
             username="player1",
             email="player1@example.com",
-            password="supersecret123",
             first_name="Alex",
             last_name="Stone",
+            password="supersecret123",
         )
 
     def test_me_requires_authentication(self):
@@ -49,13 +51,21 @@ class MeViewTests(TestCase):
 
 
 class JWTFlowTests(APITestCase):
+    """
+    End-to-end tests for SimpleJWT:
+    - token obtain pair
+    - refresh
+    - verify
+    - use Bearer token to access /me
+    """
+
     def setUp(self):
-        self.user = User.objects.create_user(
+        self.user = UserFactory(
             username="player1",
             email="player1@example.com",
-            password="supersecret123",
             first_name="Alex",
             last_name="Stone",
+            password="supersecret123",
         )
         self.obtain_url = reverse("token_obtain_pair")
         self.refresh_url = reverse("token_refresh")
@@ -87,6 +97,7 @@ class JWTFlowTests(APITestCase):
             {"username": "player1", "password": "supersecret123"},
             format="json",
         )
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
         refresh = res.data["refresh"]
 
         res2 = self.client.post(self.refresh_url, {"refresh": refresh}, format="json")
@@ -100,6 +111,7 @@ class JWTFlowTests(APITestCase):
             {"username": "player1", "password": "supersecret123"},
             format="json",
         )
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
         access = res.data["access"]
 
         res2 = self.client.post(self.verify_url, {"token": access}, format="json")
@@ -112,6 +124,7 @@ class JWTFlowTests(APITestCase):
             {"username": "player1", "password": "supersecret123"},
             format="json",
         )
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
         access = res.data["access"]
 
         self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {access}")
