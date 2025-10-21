@@ -1,4 +1,5 @@
 import { baseUrl } from "@/lib/constants"
+import { flattenDrfErrors } from "@/lib/endpoints";
 import { RegistrationForm } from "@/types/auth";
 
 
@@ -11,16 +12,21 @@ import { RegistrationForm } from "@/types/auth";
  */
 export const registerUser = async (data: RegistrationForm) => {
     const res = await fetch(`${baseUrl}/api/accounts/register/`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
     });
 
     if (!res.ok) {
-        const text = await res.text();
-        throw new Error(`Registration failed: ${res.status} ${text}`);
+        const raw = await res.text();
+        let message = "Registration failed";
+        try {
+            const json = raw ? JSON.parse(raw) : null;
+            message = json ? flattenDrfErrors(json) : (raw || message);
+        } catch {
+            message = raw || message;
+        }
+        throw new Error(message);
     }
 
     return res.json();

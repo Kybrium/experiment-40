@@ -28,9 +28,10 @@ const RegistrationModal: React.FC = () => {
             toast.success('Registration successfull.');
             setTimeout(() => router.push('/dashboard'), 1200);
         },
-        onError: (err: any) => {
-            toast.error(err.message);
-        }
+        onError: (err: unknown) => {
+            const msg = err instanceof Error ? err.message : "Registration failed";
+            toast.error(msg);
+        },
     })
 
     const onSubmit: SubmitHandler<RegistrationForm> = (data) => {
