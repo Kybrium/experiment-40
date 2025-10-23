@@ -39,7 +39,7 @@ const RegistrationModal: React.FC = () => {
     }
 
     return (
-        <form className="centered-display !justify-between min-h-[80svh] auth-modal bg-surface-card glow-pulse" onSubmit={handleSubmit(onSubmit)}>
+        <form className="centered-display !justify-between min-h-[80svh] auth-modal bg-surface-card/70 glow-pulse" onSubmit={handleSubmit(onSubmit)}>
             {/* HEADER */}
             <div className="w-full">
                 <label className="subheader self-start">Registration</label>

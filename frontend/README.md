@@ -16,6 +16,10 @@ This layer handles the client-side experience, visuals, and UI logic for the ent
 * **[@react-three/fiber](https://docs.pmnd.rs/react-three-fiber)** – React renderer for Three.js
 * **[@react-three/drei](https://github.com/pmndrs/drei)** – helpers, cameras, loaders
 * **[@react-three/rapier](https://github.com/pmndrs/react-three-rapier)** – real-time 3D physics engine
+* **[@react-three/postprocessing](https://github.com/pmndrs/react-postprocessing)** – GPU-accelerated visual effects and shaders
+* **[@tsparticles/react](https://github.com/tsparticles/react)** – interactive particle and background effects
+* **[@tsparticles/slim](https://github.com/tsparticles)** – lightweight tsparticles engine build for smaller bundles
+* **[Framer Motion](https://www.framer.com/motion/)** – React animation and transition framework
 * **[TailwindCSS 4](https://tailwindcss.com/)** – design system, theming, and utility styling
 
 ---
