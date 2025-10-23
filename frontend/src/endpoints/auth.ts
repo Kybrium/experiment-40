@@ -1,3 +1,4 @@
+import { apiFetch } from "@/lib/apiFetch";
 import { baseUrl } from "@/lib/constants"
 import { getCookie } from "@/lib/cookies";
 import { flattenDrfErrors } from "@/lib/endpoints";
@@ -14,7 +15,7 @@ import { LoginForm, RegistrationForm } from "@/types/auth";
  */
 export const registerUser = async (data: RegistrationForm) => {
     const csrftoken = getCookie("csrftoken");
-    const res = await fetch(`${baseUrl}/api/accounts/register/`, {
+    const res = await apiFetch(`${baseUrl}/api/accounts/register/`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -49,7 +50,7 @@ export const registerUser = async (data: RegistrationForm) => {
  */
 export const loginUser = async (data: LoginForm) => {
     const csrftoken = getCookie("csrftoken");
-    const res = await fetch(`${baseUrl}/api/accounts/token/`, {
+    const res = await apiFetch(`${baseUrl}/api/accounts/token/`, {
         method: 'POST',
         headers: {
             "Content-Type": "application/json",
@@ -76,8 +77,23 @@ export const loginUser = async (data: LoginForm) => {
 
 
 
+
+/**
+ * Fetches the currently authenticated user's information.
+ *
+ * This function calls the `/api/accounts/me/` endpoint, which returns
+ * the profile data of the user associated with the current session
+ * (based on the stored HTTP-only authentication cookies).
+ *
+ * - Returns `null` if the user is not authenticated (401 response).
+ * - Throws an error if any other request failure occurs.
+ *
+ * @returns The current user object as JSON, or `null` if not logged in.
+ * @throws Error if the request fails for any non-401 reason.
+ */
 export async function fetchCurrentUser() {
-    const res = await fetch(`${baseUrl}/api/accounts/me/`, {
+    const res = await apiFetch(`${baseUrl}/api/accounts/me/`, {
+        method: 'GET',
         credentials: "include",
     });
 
