@@ -16,10 +16,12 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <ConsoleStartup />
-      <Providers>
-        <body>{children}</body>
-      </Providers>
+      <body>
+        <ConsoleStartup />
+        <Providers>
+          {children}
+        </Providers>
+      </body>
     </html>
   );
 }
