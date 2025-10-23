@@ -73,3 +73,16 @@ export const loginUser = async (data: LoginForm) => {
 
     return res.json();
 }
+
+
+
+export async function fetchCurrentUser() {
+    const res = await fetch(`${baseUrl}/api/accounts/me/`, {
+        credentials: "include",
+    });
+
+    if (res.status === 401) return null;
+    if (!res.ok) throw new Error("Failed to fetch user");
+
+    return res.json();
+}

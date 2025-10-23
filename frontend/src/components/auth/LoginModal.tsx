@@ -1,8 +1,8 @@
 'use client';
 
-import { loginUser } from "@/endpoints/auth";
+import { fetchCurrentUser, loginUser } from "@/endpoints/auth";
 import { LoginForm } from "@/types/auth";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FaUser } from "react-icons/fa";
@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 const LoginModal: React.FC<{ setIsLogin: (v: boolean) => void }> = ({ setIsLogin }) => {
 
     const router = useRouter();
+    const queryClient = useQueryClient();
 
     // FORM SETTINGS
     const { register, handleSubmit, formState: { errors } } = useForm<LoginForm>({
@@ -21,8 +22,10 @@ const LoginModal: React.FC<{ setIsLogin: (v: boolean) => void }> = ({ setIsLogin
     // TANSTACK
     const { mutate, isPending, isSuccess, error } = useMutation({
         mutationFn: loginUser,
-        onSuccess: () => {
+        onSuccess: async () => {
             toast.success('Login successfull.');
+            await queryClient.invalidateQueries({ queryKey: ["me"] });
+            await queryClient.prefetchQuery({ queryKey: ["me"], queryFn: fetchCurrentUser });
             setTimeout(() => router.push('/dashboard'), 1200);
         },
         onError: (err: unknown) => {

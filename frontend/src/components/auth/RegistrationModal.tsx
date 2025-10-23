@@ -1,8 +1,8 @@
 'use client';
 
-import { registerUser } from "@/endpoints/auth";
+import { fetchCurrentUser, registerUser } from "@/endpoints/auth";
 import { RegistrationForm } from "@/types/auth";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FaUser } from "react-icons/fa";
@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 const RegistrationModal: React.FC<{ setIsLogin: (v: boolean) => void }> = ({ setIsLogin }) => {
 
     const router = useRouter();
+    const queryClient = useQueryClient();
 
     // FORM SETTINGS
     const { register, handleSubmit, watch, formState: { errors } } = useForm<RegistrationForm>({
@@ -23,8 +24,10 @@ const RegistrationModal: React.FC<{ setIsLogin: (v: boolean) => void }> = ({ set
     // TANSTACK
     const { mutate, isPending, isSuccess, error } = useMutation({
         mutationFn: registerUser,
-        onSuccess: () => {
+        onSuccess: async () => {
             toast.success('Registration successfull.');
+            await queryClient.invalidateQueries({ queryKey: ["me"] });
+            await queryClient.prefetchQuery({ queryKey: ["me"], queryFn: fetchCurrentUser });
             setTimeout(() => router.push('/dashboard'), 1200);
         },
         onError: (err: unknown) => {
