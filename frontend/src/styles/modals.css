@@ -1,0 +1,14 @@
+@layer utilities {
+    .auth-modal {
+        @apply flex flex-col items-center w-full lg:max-w-xl max-w-[90%] p-8 rounded-2xl;
+    }
+
+    /* ========== LAYOUTS ========== */
+    .centered-display {
+        @apply flex flex-col items-center justify-center w-full;
+    }
+
+    .centered-row-display {
+        @apply flex lg:flex-row items-center align-middle justify-evenly w-full md:flex-col;
+    }
+}

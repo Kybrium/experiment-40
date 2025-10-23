@@ -16,7 +16,13 @@ This layer handles the client-side experience, visuals, and UI logic for the ent
 * **[@react-three/fiber](https://docs.pmnd.rs/react-three-fiber)** – React renderer for Three.js
 * **[@react-three/drei](https://github.com/pmndrs/drei)** – helpers, cameras, loaders
 * **[@react-three/rapier](https://github.com/pmndrs/react-three-rapier)** – real-time 3D physics engine
+* **[@react-three/postprocessing](https://github.com/pmndrs/react-postprocessing)** – GPU-accelerated visual effects and shaders
+* **[@tsparticles/react](https://github.com/tsparticles/react)** – interactive particle and background effects
+* **[@tsparticles/slim](https://github.com/tsparticles)** – lightweight tsparticles engine build for smaller bundles
+* **[Framer Motion](https://www.framer.com/motion/)** – React animation and transition framework
 * **[TailwindCSS 4](https://tailwindcss.com/)** – design system, theming, and utility styling
+
+---
 
 ### 🧰 Tooling
 
@@ -28,6 +34,17 @@ This layer handles the client-side experience, visuals, and UI logic for the ent
   * **@eslint/eslintrc** – ESLint configuration helpers
 * **[PostCSS](https://postcss.org/)** (via `@tailwindcss/postcss`) – CSS processing and optimization
 * **[Node.js 20+](https://nodejs.org/)** – runtime environment
+
+---
+
+### 🧩 UI & Form Handling
+
+* **[React Hook Form](https://react-hook-form.com/)** – performant, type-safe form validation and management
+* **[@tanstack/react-query](https://tanstack.com/query/latest)** – server state management, caching, and async data synchronization
+* **[React Toastify](https://fkhadra.github.io/react-toastify/introduction)** – elegant toast notifications for user feedback
+* **[React Icons](https://react-icons.github.io/react-icons/)** – unified icon library wrapper for Font Awesome, Material, and more
+
+---
 
 ### 🧪 Testing
 

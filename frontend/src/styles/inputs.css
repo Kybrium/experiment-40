@@ -1,0 +1,27 @@
+@layer utilities {
+    .input {
+    @apply w-full px-4 py-3 rounded-xl font-sans text-base text-text-primary
+            bg-surface-card border border-text-muted outline-none transition-all
+            duration-200 placeholder-text-muted;
+    }
+
+    /* Focused state — glow highlight */
+    .input:focus {
+    @apply border-primary-accent shadow-[0_0_10px_theme(colors.primary-accent)];
+    }
+
+    /* Disabled / readonly */
+    .input-disabled {
+    @apply bg-surface-card/60 text-text-muted border-surface-card cursor-not-allowed opacity-70;
+    }
+
+    /* Error / danger state */
+    .input-error {
+    @apply border-danger-error shadow-[0_0_10px_theme(colors.danger-error)];
+    }
+
+    /* Success state */
+    .input-success {
+    @apply border-secondary-accent shadow-[0_0_10px_theme(colors.secondary-accent)];
+    }
+}

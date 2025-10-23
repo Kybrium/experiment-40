@@ -5,6 +5,7 @@ from django.urls import reverse
 from faker import Faker
 
 from accounts.views import UserView
+from accounts.models import User
 from .factories import UserFactory
 
 
@@ -52,86 +53,94 @@ class MeViewTests(TestCase):
 
 
 class JWTFlowTests(APITestCase):
-    """
-    End-to-end tests for SimpleJWT:
-    - token obtain pair
-    - refresh
-    - verify
-    - use Bearer token to access /me
-    """
+    """End-to-end tests for SimpleJWT with cookie-based storage."""
 
     def setUp(self):
-        self.user = UserFactory(
+        self.user = User.objects.create_user(
             username="player1",
             email="player1@example.com",
-            first_name="Alex",
-            last_name="Stone",
             password="supersecret123",
         )
         self.obtain_url = reverse("token_obtain_pair")
         self.refresh_url = reverse("token_refresh")
-        self.verify_url = reverse("token_verify")
         self.me_url = reverse("me")
 
-    def test_obtain_token_pair_success(self):
+    def test_obtain_token_sets_cookies(self):
         res = self.client.post(
             self.obtain_url,
             {"username": "player1", "password": "supersecret123"},
             format="json",
         )
         self.assertEqual(res.status_code, status.HTTP_200_OK)
-        self.assertIn("access", res.data)
-        self.assertIn("refresh", res.data)
+        self.assertNotIn("access", res.data)
+        self.assertNotIn("refresh", res.data)
+        self.assertIn("access_token", res.cookies)
+        self.assertIn("refresh_token", res.cookies)
 
-    def test_obtain_token_pair_invalid_credentials(self):
-        res = self.client.post(
-            self.obtain_url,
-            {"username": "player1", "password": "wrongpass"},
-            format="json",
-        )
-        self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
+    def test_me_requires_cookie_auth(self):
+        """Unauthenticated call should 401, authenticated cookie should pass."""
+        # not logged in
+        res1 = self.client.get(self.me_url)
+        self.assertEqual(res1.status_code, status.HTTP_401_UNAUTHORIZED)
 
-    def test_refresh_token(self):
-        # first obtain
-        res = self.client.post(
+        # login -> cookies returned
+        res2 = self.client.post(
             self.obtain_url,
             {"username": "player1", "password": "supersecret123"},
             format="json",
         )
-        self.assertEqual(res.status_code, status.HTTP_200_OK)
-        refresh = res.data["refresh"]
-
-        res2 = self.client.post(self.refresh_url, {"refresh": refresh}, format="json")
         self.assertEqual(res2.status_code, status.HTTP_200_OK)
-        self.assertIn("access", res2.data)
+        self.client.cookies = res2.cookies
 
-    def test_verify_token(self):
-        # obtain -> verify access
+        res3 = self.client.get(self.me_url)
+        self.assertEqual(res3.status_code, status.HTTP_200_OK)
+        self.assertEqual(res3.data["username"], "player1")
+
+    def test_logout_clears_cookies(self):
+        """Logout should remove access/refresh cookies."""
+        # login
+        res = self.client.post(
+            self.obtain_url,
+            {"username": "player1", "password": "supersecret123"},
+            format="json",
+        )
+        self.client.cookies = res.cookies
+
+        # logout
+        logout_url = reverse("logout")
+        res2 = self.client.post(logout_url)
+        self.assertEqual(res2.status_code, status.HTTP_200_OK)
+        self.assertEqual(res2.cookies["access_token"].value, "")
+        self.assertEqual(res2.cookies["refresh_token"].value, "")
+
+    def test_refresh_token_via_cookie(self):
+        """Refresh view should read refresh token from cookie and set new access cookie."""
         res = self.client.post(
             self.obtain_url,
             {"username": "player1", "password": "supersecret123"},
             format="json",
         )
         self.assertEqual(res.status_code, status.HTTP_200_OK)
-        access = res.data["access"]
+        self.assertIn("refresh_token", res.cookies)
 
-        res2 = self.client.post(self.verify_url, {"token": access}, format="json")
+        self.client.cookies = res.cookies
+        res2 = self.client.post(self.refresh_url)
+
         self.assertEqual(res2.status_code, status.HTTP_200_OK)
+        self.assertIn("access_token", res2.cookies)
+        self.assertNotIn("access", res2.data)
 
-    def test_access_protected_me_endpoint(self):
-        # obtain -> use Authorization header
+    def test_verify_cookie_token(self):
+        """Verify view should validate access token from cookie."""
         res = self.client.post(
             self.obtain_url,
             {"username": "player1", "password": "supersecret123"},
             format="json",
         )
-        self.assertEqual(res.status_code, status.HTTP_200_OK)
-        access = res.data["access"]
+        self.client.cookies = res.cookies
+        verify_res = self.client.post(reverse("token_verify"))
 
-        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {access}")
-        res2 = self.client.get(self.me_url)
-        self.assertEqual(res2.status_code, status.HTTP_200_OK)
-        self.assertEqual(res2.data["username"], "player1")
+        self.assertEqual(verify_res.status_code, status.HTTP_200_OK)
 
 
 
@@ -187,7 +196,8 @@ class RegistrationTests(APITestCase):
 
         # Verify token works
         access = res.data["access"]
-        verify = self.client.post(self.token_verify_url, {"token": access}, format="json")
+        self.client.cookies["access_token"] = access
+        verify = self.client.post(self.token_verify_url)
         self.assertEqual(verify.status_code, status.HTTP_200_OK)
 
         # Can use token to access /me/

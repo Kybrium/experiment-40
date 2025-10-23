@@ -1,0 +1,16 @@
+@layer base {
+  @keyframes glow-pulse {
+    0%, 100% {
+      box-shadow: 0 0 10px theme(colors.primary-accent);
+    }
+    50% {
+      box-shadow: 0 0 25px theme(colors.primary-accent);
+    }
+  }
+}
+
+@layer utilities {
+  .glow-pulse {
+    animation: glow-pulse 2s ease-in-out infinite;
+  }
+}

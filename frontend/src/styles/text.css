@@ -1,0 +1,59 @@
+@layer utilities {
+    /* Headline — used for large hero titles */
+    .headers {
+    @apply font-display text-[clamp(2.5rem,6vw,5rem)] font-bold text-primary-accent 
+            tracking-tight drop-shadow-[0_0_20px_theme(colors.primary-accent)];
+    }
+
+    /* Section titles — smaller than headers */
+    .subheader {
+    @apply font-display text-[clamp(1.5rem,3vw,2.5rem)] font-semibold text-text-primary 
+            tracking-wide drop-shadow-[0_0_10px_rgba(157,0,255,0.4)];
+    }
+
+    /* Subtitle / tagline — lighter accent tone */
+    .subtitle {
+    @apply font-display text-secondary-accent text-lg tracking-widest uppercase 
+            drop-shadow-[0_0_6px_theme(colors.secondary-accent)];
+    }
+
+    /* Body / main text */
+    .main-text {
+    @apply font-sans text-text-muted text-lg leading-relaxed max-w-prose;
+    }
+
+    /* Paragraph / secondary content */
+    .paragraph {
+    @apply font-sans text-text-muted text-base leading-relaxed max-w-prose;
+    }
+
+    /* Highlighted / accent word inside text */
+    .text-glow {
+    @apply text-primary-accent drop-shadow-[0_0_10px_theme(colors.primary-accent)];
+    }
+
+    /* Muted / dimmed note text */
+    .text-muted {
+    @apply text-text-muted italic;
+    }
+
+    /* Caption / tiny label */
+    .caption {
+    @apply font-sans text-[0.75rem] uppercase tracking-wider text-text-muted;
+    }
+
+    /* Code / terminal style */
+    .text-mono {
+    @apply font-mono bg-surface-card text-secondary-accent px-1.5 py-0.5 rounded-md text-sm;
+    }
+
+    /* Warning / alert style */
+    .text-warning {
+    @apply text-danger-error font-semibold drop-shadow-[0_0_8px_theme(colors.danger-error)];
+    }
+
+    /* Success text (optional future color) */
+    .text-success {
+    @apply text-secondary-accent font-semibold drop-shadow-[0_0_8px_theme(colors.secondary-accent)];
+    }
+}

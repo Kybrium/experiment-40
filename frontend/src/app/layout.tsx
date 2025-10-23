@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import ConsoleStartup from "@/components/tests/ConsoleStartup";
+import Providers from "./providers";
 
 export const metadata: Metadata = {
   title: "Experiment 40",
@@ -12,10 +13,15 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html lang="en">
-      <ConsoleStartup />
-      <body>{children}</body>
+      <body>
+        <ConsoleStartup />
+        <Providers>
+          {children}
+        </Providers>
+      </body>
     </html>
   );
 }
