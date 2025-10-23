@@ -1,4 +1,4 @@
-name: Django tests
+name: NextJS tests
 
 on:
   pull_request:
