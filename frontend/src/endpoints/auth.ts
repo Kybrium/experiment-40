@@ -1,4 +1,5 @@
 import { baseUrl } from "@/lib/constants"
+import { getCookie } from "@/lib/cookies";
 import { flattenDrfErrors } from "@/lib/endpoints";
 import { LoginForm, RegistrationForm } from "@/types/auth";
 
@@ -12,10 +13,15 @@ import { LoginForm, RegistrationForm } from "@/types/auth";
  * @throws Error if the registration fails or the server returns a non-OK response.
  */
 export const registerUser = async (data: RegistrationForm) => {
+    const csrftoken = getCookie("csrftoken");
     const res = await fetch(`${baseUrl}/api/accounts/register/`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": csrftoken || ""
+        },
         body: JSON.stringify(data),
+        credentials: "include",
     });
 
     if (!res.ok) {
@@ -42,10 +48,15 @@ export const registerUser = async (data: RegistrationForm) => {
  * @throws Error if the login fails or the server returns a non-OK response.
  */
 export const loginUser = async (data: LoginForm) => {
+    const csrftoken = getCookie("csrftoken");
     const res = await fetch(`${baseUrl}/api/accounts/token/`, {
         method: 'POST',
-        headers: { "Content-Type": "application/json" },
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": csrftoken || ""
+        },
         body: JSON.stringify(data),
+        credentials: "include",
     });
 
     if (!res.ok) {
