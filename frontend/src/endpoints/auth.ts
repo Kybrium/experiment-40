@@ -1,6 +1,7 @@
 import { baseUrl } from "@/lib/constants"
 import { flattenDrfErrors } from "@/lib/endpoints";
-import { RegistrationForm } from "@/types/auth";
+import { LoginForm, RegistrationForm } from "@/types/auth";
+
 
 
 /**
@@ -31,3 +32,33 @@ export const registerUser = async (data: RegistrationForm) => {
 
     return res.json();
 };
+
+
+/**
+ * Sends a login request to the API.
+ *
+ * @param data - User login data (username, password)
+ * @returns The API response as JSON if the request is successful.
+ * @throws Error if the login fails or the server returns a non-OK response.
+ */
+export const loginUser = async (data: LoginForm) => {
+    const res = await fetch(`${baseUrl}/api/accounts/token/`, {
+        method: 'POST',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+    });
+
+    if (!res.ok) {
+        const raw = await res.text();
+        let message = "Login failed";
+        try {
+            const json = raw ? JSON.parse(raw) : null;
+            message = json ? flattenDrfErrors(json) : (raw || message);
+        } catch {
+            message = raw || message;
+        }
+        throw new Error(message);
+    }
+
+    return res.json();
+}

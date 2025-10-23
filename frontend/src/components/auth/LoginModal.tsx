@@ -1,20 +1,39 @@
 'use client';
 
+import { loginUser } from "@/endpoints/auth";
 import { LoginForm } from "@/types/auth";
+import { useMutation } from "@tanstack/react-query";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FaUser } from "react-icons/fa";
 import { RiLockPasswordFill } from "react-icons/ri";
+import { toast } from "react-toastify";
 
 const LoginModal: React.FC = () => {
 
+    const router = useRouter();
+
     // FORM SETTINGS
-    const { register, handleSubmit, watch, formState: { errors } } = useForm<LoginForm>({
+    const { register, handleSubmit, formState: { errors } } = useForm<LoginForm>({
         mode: 'onChange'
     });
 
+    // TANSTACK
+    const { mutate, isPending, isSuccess, error } = useMutation({
+        mutationFn: loginUser,
+        onSuccess: () => {
+            toast.success('Login successfull.');
+            setTimeout(() => router.push('/dashboard'), 1200);
+        },
+        onError: (err: unknown) => {
+            const msg = err instanceof Error ? err.message : "Login failed";
+            toast.error(msg);
+        },
+    })
+
     const onSubmit: SubmitHandler<LoginForm> = (data) => {
-        console.log(data);
+        mutate(data);
     }
 
     return (
