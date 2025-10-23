@@ -3,14 +3,13 @@
 import { loginUser } from "@/endpoints/auth";
 import { LoginForm } from "@/types/auth";
 import { useMutation } from "@tanstack/react-query";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FaUser } from "react-icons/fa";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { toast } from "react-toastify";
 
-const LoginModal: React.FC = () => {
+const LoginModal: React.FC<{ setIsLogin: (v: boolean) => void }> = ({ setIsLogin }) => {
 
     const router = useRouter();
 
@@ -84,7 +83,7 @@ const LoginModal: React.FC = () => {
             {/* FOOTER */}
             <div className="centered-row-display centered-display mt-8 gap-3">
                 <button className="btn btn-primary w-full cursor-pointer" type="submit">Login</button>
-                <Link href='' className="btn btn-secondary w-full">Register</Link>
+                <button onClick={() => setIsLogin(false)} className="btn btn-secondary w-full cursor-pointer" type="reset">Register</button>
             </div>
         </form>
     )

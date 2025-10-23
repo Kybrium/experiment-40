@@ -3,7 +3,6 @@
 import { registerUser } from "@/endpoints/auth";
 import { RegistrationForm } from "@/types/auth";
 import { useMutation } from "@tanstack/react-query";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FaUser } from "react-icons/fa";
@@ -11,7 +10,7 @@ import { MdEmail } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { toast } from "react-toastify";
 
-const RegistrationModal: React.FC = () => {
+const RegistrationModal: React.FC<{ setIsLogin: (v: boolean) => void }> = ({ setIsLogin }) => {
 
     const router = useRouter();
 
@@ -120,7 +119,7 @@ const RegistrationModal: React.FC = () => {
             {/* FOOTER */}
             <div className="centered-row-display centered-display mt-8 gap-3">
                 <button className="btn btn-primary w-full cursor-pointer" type="submit">Register</button>
-                <Link href='' className="btn btn-secondary w-full">Back to Login</Link>
+                <button onClick={() => setIsLogin(true)} className="btn btn-secondary w-full cursor-pointer" type="reset">Back to Login</button>
             </div>
         </form>
     )

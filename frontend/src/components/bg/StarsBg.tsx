@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { memo, useEffect, useMemo, useState } from "react";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import type { ISourceOptions } from "@tsparticles/engine";
 import { InteractivityDetect } from "@tsparticles/engine";
@@ -17,7 +17,7 @@ import { loadSlim } from "@tsparticles/slim";
  * - Full-screen, fixed background
  * - Two layers for depth
  */
-export default function StarsBg() {
+const StarsBg = () => {
     const [ready, setReady] = useState(false);
 
     useEffect(() => {
@@ -133,3 +133,5 @@ export default function StarsBg() {
         </div>
     );
 }
+
+export default memo(StarsBg);
