@@ -20,6 +20,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [DEVELOPMENT] Merge No.12 - 23.10.2025
+- Created registration flow with caching of user and protected routes
+- All JWT work now on cookies
+- Added testings for frontend and fixed for backend
+- Updated docs
+
+---
+
 ## [DEVELOPMENT] Merge No.11 - 21.10.2025
 - Added registration endpoint on backend
 - Added factory_boy
