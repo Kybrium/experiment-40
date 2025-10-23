@@ -4,3 +4,8 @@ export interface RegistrationForm {
     'password': string,
     'password2': string,
 }
+
+export interface LoginForm {
+    'username': string,
+    'password': string,
+}
