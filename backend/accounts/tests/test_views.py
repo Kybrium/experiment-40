@@ -113,6 +113,35 @@ class JWTFlowTests(APITestCase):
         self.assertEqual(res2.cookies["access_token"].value, "")
         self.assertEqual(res2.cookies["refresh_token"].value, "")
 
+    def test_refresh_token_via_cookie(self):
+        """Refresh view should read refresh token from cookie and set new access cookie."""
+        res = self.client.post(
+            self.obtain_url,
+            {"username": "player1", "password": "supersecret123"},
+            format="json",
+        )
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertIn("refresh_token", res.cookies)
+
+        self.client.cookies = res.cookies
+        res2 = self.client.post(self.refresh_url)
+
+        self.assertEqual(res2.status_code, status.HTTP_200_OK)
+        self.assertIn("access_token", res2.cookies)
+        self.assertNotIn("access", res2.data)
+
+    def test_verify_cookie_token(self):
+        """Verify view should validate access token from cookie."""
+        res = self.client.post(
+            self.obtain_url,
+            {"username": "player1", "password": "supersecret123"},
+            format="json",
+        )
+        self.client.cookies = res.cookies
+        verify_res = self.client.post(reverse("token_verify"))
+
+        self.assertEqual(verify_res.status_code, status.HTTP_200_OK)
+
 
 
 class RegistrationTests(APITestCase):
@@ -167,7 +196,8 @@ class RegistrationTests(APITestCase):
 
         # Verify token works
         access = res.data["access"]
-        verify = self.client.post(self.token_verify_url, {"token": access}, format="json")
+        self.client.cookies["access_token"] = access
+        verify = self.client.post(self.token_verify_url)
         self.assertEqual(verify.status_code, status.HTTP_200_OK)
 
         # Can use token to access /me/

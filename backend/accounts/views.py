@@ -1,6 +1,6 @@
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.response import Response
 from rest_framework import status
@@ -33,6 +33,42 @@ class CookieTokenObtainPairView(TokenObtainPairView):
         response.set_cookie("refresh_token", refresh, **cookie_params)
 
         return response
+    
+
+class CookieTokenRefreshView(TokenRefreshView):
+    def post(self, request, *args, **kwargs):
+        refresh_token = request.COOKIES.get("refresh_token")
+        if not refresh_token:
+            return Response({"detail": "Refresh token missing"},
+                            status=status.HTTP_401_UNAUTHORIZED)
+
+        request._full_data = {"refresh": refresh_token}
+
+        response = super().post(request, *args, **kwargs)
+        if response.status_code == 200:
+            access = response.data.get("access")
+            cookie_params = {
+                "httponly": True,
+                "secure": not settings.DEBUG,
+                "samesite": "Lax",
+            }
+            response.set_cookie("access_token", access, **cookie_params)
+            response.data.pop("access", None)
+        return response
+    
+
+class CookieTokenVerifyView(TokenVerifyView):
+    def post(self, request, *args, **kwargs):
+        access_token = request.COOKIES.get("access_token")
+        if not access_token:
+            return Response(
+                {"detail": "No access token"},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
+
+        request._full_data = {"token": access_token}
+
+        return super().post(request, *args, **kwargs)
 
 
 class LogoutView(APIView):
@@ -44,7 +80,6 @@ class LogoutView(APIView):
 
 
 class UserView(APIView):
-
     def get_permissions(self):
         if self.request.method == "POST":
             return [AllowAny()]
