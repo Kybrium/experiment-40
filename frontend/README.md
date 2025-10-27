@@ -43,6 +43,7 @@ This layer handles the client-side experience, visuals, and UI logic for the ent
 * **[@tanstack/react-query](https://tanstack.com/query/latest)** – server state management, caching, and async data synchronization
 * **[React Toastify](https://fkhadra.github.io/react-toastify/introduction)** – elegant toast notifications for user feedback
 * **[React Icons](https://react-icons.github.io/react-icons/)** – unified icon library wrapper for Font Awesome, Material, and more
+* **[react-i18next](https://react.i18next.com/)** – internationalization (i18n) and language management with JSON-based translations
 
 ---
 
