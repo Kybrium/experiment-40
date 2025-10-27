@@ -20,6 +20,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [DEVELOPMENT] Merge No.13 - 27.10.2025
+- Initialized i18n
+- Translated Login and Register modals
+- Updated documentation
+
+---
+
 ## [DEVELOPMENT] Merge No.12 - 23.10.2025
 - Created registration flow with caching of user and protected routes
 - All JWT work now on cookies

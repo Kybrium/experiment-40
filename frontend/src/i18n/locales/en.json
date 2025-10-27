@@ -1,0 +1,45 @@
+{
+    "Auth": {
+        "Registration": {
+            "title": "Registration",
+            "toast_success": "Registration successful.",
+            "toast_error_fallback": "Registration failed",
+            "username_placeholder": "Username",
+            "email_placeholder": "Email",
+            "password_placeholder": "Password",
+            "password2_placeholder": "Repeat password",
+            "button_submit": "Register",
+            "button_back_to_login": "Back to Login",
+            "username_required": "Username is required.",
+            "username_min": "At least 3 characters.",
+            "username_max": "Max 255 characters.",
+            "username_no_spaces": "No spaces allowed.",
+            "email_required": "Email is required.",
+            "email_pattern": "Please enter a valid email address.",
+            "email_max": "Max 254 characters.",
+            "password_required": "Password is required.",
+            "password_min": "At least 8 characters.",
+            "password_max": "Max 128 characters.",
+            "password_complexity": "Min 8 chars, include letters and numbers.",
+            "password2_required": "Repeating your password is required.",
+            "password2_match": "Passwords do not match."
+        },
+        "Login": {
+            "title": "Login",
+            "toast_success": "Login successful.",
+            "toast_error_fallback": "Login failed.",
+            "username_placeholder": "Username",
+            "password_placeholder": "Password",
+            "button_submit": "Login",
+            "button_to_register": "Register",
+            "username_required": "Username is required.",
+            "username_min": "At least 3 characters.",
+            "username_max": "Max 255 characters.",
+            "username_no_spaces": "No spaces allowed.",
+            "password_required": "Password is required.",
+            "password_min": "At least 8 characters.",
+            "password_max": "Max 128 characters.",
+            "password_complexity": "Min 8 chars, include letters and numbers."
+        }
+    }
+}
