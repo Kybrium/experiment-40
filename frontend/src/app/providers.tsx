@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { I18nextProvider } from 'react-i18next';
-import i18n from '../../i18n/config';
+import i18n from '../i18n/config';
 
 export default function Providers({ children }: { children: ReactNode }) {
     const [queryClient] = useState(() => new QueryClient());

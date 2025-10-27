@@ -1,28 +1,34 @@
-import { ReactNode } from 'react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render } from '@testing-library/react';
-import { act } from 'react';
+import { I18nextProvider } from 'react-i18next';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ToastContainer } from 'react-toastify';
+import { createTestI18n } from './test-i18n';
 
 export function createTestClient() {
     return new QueryClient({
         defaultOptions: {
-            queries: { retry: false, gcTime: 0 },
-            mutations: { retry: false },
-        },
+            queries: {
+                retry: false
+            }
+        }
     });
 }
 
-export function renderWithRQ(ui: ReactNode, client = createTestClient()) {
-    return render(<QueryClientProvider client={client}>{ui}</QueryClientProvider>);
+export async function flushTimers(ms: number) {
+    jest.advanceTimersByTime(ms);
+    await Promise.resolve();
 }
 
-export async function flushTimers(ms = 0) {
+export function renderWithAll(ui: React.ReactElement, client?: QueryClient) {
+    const queryClient = client ?? createTestClient();
+    const i18n = createTestI18n();
 
-    await Promise.resolve();
-    await act(async () => {
-        jest.advanceTimersByTime(ms);
-        jest.runOnlyPendingTimers();
-    });
-
-    await Promise.resolve();
+    return render(
+        <I18nextProvider i18n={i18n}>
+            <QueryClientProvider client={queryClient}>
+                {ui}
+                <ToastContainer theme="dark" />
+            </QueryClientProvider>
+        </I18nextProvider>
+    );
 }
