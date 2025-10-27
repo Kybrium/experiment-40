@@ -23,6 +23,23 @@
             "password_complexity": "Мінімум 8 символів, включаючи літери та цифри.",
             "password2_required": "Потрібно повторити пароль.",
             "password2_match": "Паролі не співпадають."
+        },
+        "Login": {
+            "title": "Вхід",
+            "toast_success": "Вхід успішний.",
+            "toast_error_fallback": "Помилка під час входу.",
+            "username_placeholder": "Ім'я користувача",
+            "password_placeholder": "Пароль",
+            "button_submit": "Увійти",
+            "button_to_register": "Зареєструватися",
+            "username_required": "Ім'я користувача є обов’язковим.",
+            "username_min": "Мінімум 3 символи.",
+            "username_max": "Максимум 255 символів.",
+            "username_no_spaces": "Пробіли не дозволені.",
+            "password_required": "Пароль є обов’язковим.",
+            "password_min": "Мінімум 8 символів.",
+            "password_max": "Максимум 128 символів.",
+            "password_complexity": "Мінімум 8 символів, включаючи літери та цифри."
         }
     }
 }
