@@ -1,0 +1,28 @@
+{
+    "Auth": {
+        "Registration": {
+            "title": "Реєстрація",
+            "toast_success": "Реєстрація успішна.",
+            "toast_error_fallback": "Помилка під час реєстрації.",
+            "username_placeholder": "Ім'я користувача",
+            "email_placeholder": "Електронна пошта",
+            "password_placeholder": "Пароль",
+            "password2_placeholder": "Повторіть пароль",
+            "button_submit": "Зареєструватися",
+            "button_back_to_login": "Назад до входу",
+            "username_required": "Ім'я користувача є обов’язковим.",
+            "username_min": "Мінімум 3 символи.",
+            "username_max": "Максимум 255 символів.",
+            "username_no_spaces": "Пробіли не дозволені.",
+            "email_required": "Електронна пошта є обов’язковою.",
+            "email_pattern": "Будь ласка, введіть дійсну адресу електронної пошти.",
+            "email_max": "Максимум 254 символи.",
+            "password_required": "Пароль є обов’язковим.",
+            "password_min": "Мінімум 8 символів.",
+            "password_max": "Максимум 128 символів.",
+            "password_complexity": "Мінімум 8 символів, включаючи літери та цифри.",
+            "password2_required": "Потрібно повторити пароль.",
+            "password2_match": "Паролі не співпадають."
+        }
+    }
+}
