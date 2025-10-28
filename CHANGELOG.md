@@ -20,6 +20,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [DEVELOPMENT] Merge No.14 - 28.10.2025
+- Initialized i18n on backend
+- Translated accounts
+- Added middleware for sync translation
+- Updated docs
+
+---
+
 ## [DEVELOPMENT] Merge No.13 - 27.10.2025
 - Initialized i18n
 - Translated Login and Register modals
