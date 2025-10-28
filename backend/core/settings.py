@@ -44,10 +44,11 @@ INSTALLED_APPS = [
     'django_otp.plugins.otp_totp',
 
     'accounts',
+    'infrastructure',
 ]
 
 MIDDLEWARE = [
-    'core.middlewares.MaintenanceModeMiddleware',
+    'infrastructure.middlewares.MaintenanceModeMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -56,6 +57,7 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django_otp.middleware.OTPMiddleware',
+    'infrastructure.middlewares.UserLanguageMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -221,6 +223,11 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
+
+LOCALE_PATHS = [
+    BASE_DIR / "accounts" / "locale",
+    BASE_DIR / "core" / "locale",
+]
 # ==========================================
 
 

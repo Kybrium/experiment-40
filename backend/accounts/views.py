@@ -5,6 +5,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.response import Response
 from rest_framework import status
 from django.conf import settings
+from django.utils.translation import gettext_lazy as _
 
 from .serializers import MeSerializer, UserRegistrationSerializer
 
@@ -39,7 +40,7 @@ class CookieTokenRefreshView(TokenRefreshView):
     def post(self, request, *args, **kwargs):
         refresh_token = request.COOKIES.get("refresh_token")
         if not refresh_token:
-            return Response({"detail": "Refresh token missing"},
+            return Response({"detail": _("Refresh token missing")},
                             status=status.HTTP_401_UNAUTHORIZED)
 
         request._full_data = {"refresh": refresh_token}
@@ -62,7 +63,7 @@ class CookieTokenVerifyView(TokenVerifyView):
         access_token = request.COOKIES.get("access_token")
         if not access_token:
             return Response(
-                {"detail": "No access token"},
+                {"detail": _("No access token")},
                 status=status.HTTP_401_UNAUTHORIZED,
             )
 
@@ -73,7 +74,7 @@ class CookieTokenVerifyView(TokenVerifyView):
 
 class LogoutView(APIView):
     def post(self, request):
-        response = Response({"message": "Logged out"})
+        response = Response({"message": _("Logged out")})
         response.delete_cookie("access_token")
         response.delete_cookie("refresh_token")
         return response
