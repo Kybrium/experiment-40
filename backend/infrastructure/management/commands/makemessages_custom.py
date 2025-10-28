@@ -4,11 +4,11 @@ from django.core.management.base import BaseCommand
 
 
 class Command(BaseCommand):
-    help = "Run makemessages but skip everything except selected folders (default: accounts, core)."
+    help = "Run makemessages but skip everything except selected folders (default: accounts, core, minecraft)."
 
     def add_arguments(self, parser):
         parser.add_argument("-l", "--locale", default="uk", help="Language code (default: uk)")
-        parser.add_argument("--folders", nargs="+", default=["accounts", "core"], help="List of folders to include in extraction")
+        parser.add_argument("--folders", nargs="+", default=["accounts", "core", "minecraft"], help="List of folders to include in extraction")
 
     def handle(self, *args, **options):
         lang = options["locale"]

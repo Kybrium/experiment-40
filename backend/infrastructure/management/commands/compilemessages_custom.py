@@ -5,10 +5,10 @@ from django.core.management.base import BaseCommand
 
 
 class Command(BaseCommand):
-    help = "Run compilemessages only for selected folders (default: accounts, core)."
+    help = "Run compilemessages only for selected folders (default: accounts, core, minecraft)."
 
     def add_arguments(self, parser):
-        parser.add_argument("--folders", nargs="+", default=["accounts", "core"], help="List of folders to compile translations for")
+        parser.add_argument("--folders", nargs="+", default=["accounts", "core", "minecraft"], help="List of folders to compile translations for")
 
     def handle(self, *args, **options):
         folders = options["folders"]
