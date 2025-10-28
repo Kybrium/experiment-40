@@ -18,7 +18,11 @@ PROJECT_NAME = "Experiment 40"
 
 # ========== MAIN SETTINGS ==========
 BASE_DIR = Path(__file__).resolve().parent.parent
+
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "dev-secret")
+MINECRAFT_API_KEY = os.getenv('MINECRAFT_API_KEY', "super-secret-long-string")
+MAINTENANCE_MODE = os.getenv('MAINTENANCE_MODE') == 'True'
+
 DEBUG = os.getenv("DJANGO_DEBUG", os.getenv("DJANGO-DEBUG", "true")).lower() == "true"
 HOSTS = os.getenv("DJANGO_HOSTS", "localhost,127.0.0.1").split(",")
 HOSTS_URLS = os.getenv("DJANGO_HOSTS_URLS","http://localhost:3000,http://127.0.0.1:3000").split(",")
@@ -26,7 +30,6 @@ ALLOWED_HOSTS = HOSTS
 CORS_ALLOWED_ORIGINS = HOSTS_URLS
 CSRF_TRUSTED_ORIGINS = HOSTS_URLS
 CORS_ALLOW_CREDENTIALS = True
-MAINTENANCE_MODE = os.getenv('MAINTENANCE_MODE') == 'True'
 # ===================================
 
 
