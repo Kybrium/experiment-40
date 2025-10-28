@@ -2,7 +2,8 @@ from rest_framework.validators import UniqueValidator
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import gettext
 from rest_framework import serializers
-from .models import User
+from .models import User, GameToken
+
 
 
 class MeSerializer(serializers.ModelSerializer):
@@ -40,3 +41,21 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         user.set_password(password)
         user.save()
         return user
+    
+
+class GameTokenSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GameToken
+        fields = [
+            "id",
+            "value",
+            "is_active",
+            "generated_at",
+        ]
+        read_only_fields = fields
+
+    def create(self, validated_data):
+        raise serializers.ValidationError(gettext("GameTokenSerializer is read-only."))
+
+    def update(self, instance, validated_data):
+        raise serializers.ValidationError(gettext("GameTokenSerializer is read-only."))

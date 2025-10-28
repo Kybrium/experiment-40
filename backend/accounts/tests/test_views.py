@@ -4,9 +4,9 @@ from rest_framework import status
 from django.urls import reverse
 from faker import Faker
 
-from accounts.views import UserView
-from accounts.models import User
-from .factories import UserFactory
+from accounts.views import UserView, GameTokenView
+from accounts.models import User, GameToken
+from .factories import UserFactory, GameTokenFactory
 
 
 class MeViewTests(TestCase):
@@ -262,3 +262,124 @@ class RegistrationTests(APITestCase):
         self.client.credentials()
         res2 = self.client.get(self.me_url)
         self.assertEqual(res2.status_code, status.HTTP_401_UNAUTHORIZED)
+
+
+class GameTokenViewTests(APITestCase):
+    """
+    Tests for POST /api/game-tokens/ (GameTokenView).
+    Enforces slot limits and requires authentication.
+    """
+
+    def setUp(self):
+        self.factory = APIRequestFactory()
+        self.view = GameTokenView.as_view()
+        self.url = reverse("game-token")
+
+        # create a normal user with default slots = 1
+        self.user = UserFactory(
+            username="tokenuser",
+            slots=1,
+        )
+
+    def test_requires_authentication(self):
+        """
+        Unauthenticated POST should return 401.
+        """
+        request = self.factory.post(self.url)
+        response = self.view(request)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_creates_token_when_under_limit(self):
+        """
+        If the user has created fewer tokens than slots, we should:
+        - return 201
+        - create a new GameToken linked to that user
+        - respond with serialized token fields
+        """
+        # sanity: user has 0 tokens, slots=1
+        self.assertEqual(GameToken.objects.filter(user=self.user).count(), 0)
+        self.assertEqual(self.user.slots, 1)
+
+        request = self.factory.post(self.url)
+        force_authenticate(request, user=self.user)
+        response = self.view(request)
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        # response data shape
+        data = response.data
+        self.assertEqual(
+            set(data.keys()),
+            {"id", "value", "is_active", "generated_at"},
+        )
+
+        # it should be active
+        self.assertTrue(data["is_active"])
+
+        # DB side: exactly 1 token now
+        tokens = GameToken.objects.filter(user=self.user)
+        self.assertEqual(tokens.count(), 1)
+
+        token = tokens.first()
+        self.assertIsNotNone(token)
+        self.assertEqual(token.user, self.user)
+        self.assertTrue(token.is_active)
+
+        # token.value in DB should match payload value
+        self.assertEqual(data["value"], token.value)
+
+    def test_respects_slot_limit_and_returns_403(self):
+        """
+        If the user already hit their slots cap, POST should return 403
+        and MUST NOT create another token.
+        """
+        # Give the user 1 slot, and 1 existing token => already at limit
+        self.user.slots = 1
+        self.user.save(update_fields=["slots"])
+        GameTokenFactory(user=self.user)  # consumes the slot
+
+        self.assertEqual(GameToken.objects.filter(user=self.user).count(), 1)
+
+        request = self.factory.post(self.url)
+        force_authenticate(request, user=self.user)
+        response = self.view(request)
+
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+        # Response body should include limit + current
+        self.assertIn("detail", response.data)
+        self.assertIn("limit", response.data)
+        self.assertIn("current", response.data)
+        self.assertEqual(response.data["limit"], 1)
+        self.assertEqual(response.data["current"], 1)
+
+        # Still only 1 token in DB, no new one created
+        self.assertEqual(GameToken.objects.filter(user=self.user).count(), 1)
+
+    def test_user_with_more_slots_can_generate_multiple(self):
+        """
+        User with slots > 1 can generate up to that many total tokens,
+        but not beyond it.
+        """
+        # Give the user 3 slots
+        self.user.slots = 3
+        self.user.save(update_fields=["slots"])
+
+        # create 2 tokens already
+        GameTokenFactory(user=self.user)
+        GameTokenFactory(user=self.user)
+        self.assertEqual(GameToken.objects.filter(user=self.user).count(), 2)
+
+        # Should STILL be allowed to create a 3rd (within slots)
+        request_ok = self.factory.post(self.url)
+        force_authenticate(request_ok, user=self.user)
+        response_ok = self.view(request_ok)
+        self.assertEqual(response_ok.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(GameToken.objects.filter(user=self.user).count(), 3)
+
+        # Now at 3/3, next one should be blocked
+        request_block = self.factory.post(self.url)
+        force_authenticate(request_block, user=self.user)
+        response_block = self.view(request_block)
+        self.assertEqual(response_block.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(GameToken.objects.filter(user=self.user).count(), 3)

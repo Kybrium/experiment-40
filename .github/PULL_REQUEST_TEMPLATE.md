@@ -14,6 +14,7 @@ Fixes # (issue)
 ## Checklist
 - [ ] I have run the project locally and verified my changes.
 - [ ] I have added tests (if applicable).
+- [ ] I have added translation (if applicable).
 - [ ] I have updated documentation (README, docs, etc.).
 - [ ] My commits follow the [Conventional Commit](https://www.conventionalcommits.org/en/v1.0.0/) style.
 

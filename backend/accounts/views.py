@@ -1,4 +1,5 @@
 from rest_framework.views import APIView
+import secrets
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -7,8 +8,8 @@ from rest_framework import status
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 
-from .serializers import MeSerializer, UserRegistrationSerializer
-
+from .serializers import MeSerializer, UserRegistrationSerializer, GameTokenSerializer
+from .models import GameToken
 
 
 class CookieTokenObtainPairView(TokenObtainPairView):
@@ -73,6 +74,8 @@ class CookieTokenVerifyView(TokenVerifyView):
 
 
 class LogoutView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def post(self, request):
         response = Response({"message": _("Logged out")})
         response.delete_cookie("access_token")
@@ -106,3 +109,44 @@ class UserView(APIView):
                 "refresh": str(refresh),
             }, status=status.HTTP_201_CREATED,
         )
+    
+
+
+class GameTokenView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        """
+        Create a new GameToken for the current user IF they have capacity.
+
+        Capacity rule:
+        - user.slots = max number of tokens allowed to ever exist for this user
+          (lifetime total, regardless of is_active)
+
+        - We check len(GameToken.objects.filter(user=request.user))
+          and deny if they've reached the limit.
+        """
+        user = request.user
+
+        existing_tokens_count = GameToken.objects.filter(user=user).count()
+
+        if existing_tokens_count >= user.slots:
+            return Response(
+                {
+                    "detail": _("You have reached your token limit. Purchase more slots to generate additional tokens."),
+                    "limit": user.slots,
+                    "current": existing_tokens_count,
+                },
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        token_value = secrets.token_urlsafe(16)
+
+        token = GameToken.objects.create(
+            user=user,
+            value=token_value,
+            is_active=True,
+        )
+
+        data = GameTokenSerializer(token).data
+        return Response(data, status=status.HTTP_201_CREATED)
