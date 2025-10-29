@@ -42,10 +42,12 @@ class MinecraftAccountFactory(factory.django.DjangoModelFactory):
         model = MinecraftAccount
 
     nickname = factory.Faker("user_name")
-    uuid = factory.LazyFunction(
-        # looks like a MC UUID-ish string, not enforced, just unique
-        lambda: secrets.token_hex(16)
-    )
+    uuid = factory.LazyFunction(lambda: secrets.token_hex(16))
+
     token = factory.SubFactory(GameTokenFactory)
+
+    # owner should match the token's user
+    owner = factory.LazyAttribute(lambda obj: obj.token.user)
+
     is_dead = False
     is_active = True
