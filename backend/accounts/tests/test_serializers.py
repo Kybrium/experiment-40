@@ -3,8 +3,8 @@ from django.test import TestCase
 from rest_framework import serializers
 from faker import Faker
 from accounts.models import User
-from .factories import UserFactory
-from accounts.serializers import MeSerializer, UserRegistrationSerializer
+from .factories import UserFactory, GameTokenFactory
+from accounts.serializers import MeSerializer, UserRegistrationSerializer, GameTokenSerializer
 
 
 """
@@ -183,3 +183,61 @@ class UserRegistrationSerializerTests(TestCase):
         ser = UserRegistrationSerializer(data=payload)
         self.assertFalse(ser.is_valid())
         self.assertIn("email", ser.errors)
+
+
+
+class GameTokenSerializerTests(TestCase):
+    """
+    Tests for GameTokenSerializer, which is read-only and returns token data.
+    """
+
+    def test_serialization_includes_expected_fields(self) -> None:
+        token = GameTokenFactory(is_active=True)
+
+        data = GameTokenSerializer(token).data
+
+        self.assertEqual(
+            set(data.keys()),
+            {"id", "value", "is_active", "generated_at"},
+        )
+
+        self.assertEqual(data["id"], token.id)
+        self.assertEqual(data["value"], token.value)
+        self.assertEqual(data["is_active"], token.is_active)
+
+        # generated_at should be serialized to string (ISO-ish)
+        self.assertIsNotNone(token.generated_at)
+        self.assertIsInstance(data["generated_at"], str)
+
+    def test_serializer_is_read_only_on_create(self) -> None:
+        """
+        Creating a GameToken through this serializer should raise,
+        because it's meant to be output-only.
+        """
+        ser = GameTokenSerializer(data={})
+        self.assertTrue(ser.is_valid(), ser.errors)
+
+        with self.assertRaises(serializers.ValidationError):
+            ser.save()
+
+    def test_serializer_is_read_only_on_update(self) -> None:
+        """
+        Updating an existing GameToken through this serializer should raise.
+        """
+        token = GameTokenFactory(is_active=True)
+
+        payload = {
+            "is_active": False,
+            "value": "hacked",
+        }
+
+        ser = GameTokenSerializer(instance=token, data=payload, partial=True)
+        self.assertTrue(ser.is_valid(), ser.errors)
+
+        with self.assertRaises(serializers.ValidationError):
+            ser.save()
+
+        # and confirm DB didn't get changed
+        token.refresh_from_db()
+        self.assertTrue(token.is_active)
+        self.assertNotEqual(token.value, "hacked")

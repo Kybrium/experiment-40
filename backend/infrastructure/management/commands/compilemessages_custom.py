@@ -1,40 +1,57 @@
-import sys
-import subprocess
 from pathlib import Path
 from django.core.management.base import BaseCommand
+from django.core.management.commands.compilemessages import Command as CompileMessagesCommand
 
 
 class Command(BaseCommand):
-    help = "Run compilemessages only for selected folders (default: accounts, core)."
+    help = "Compile translations only for selected folders (default: accounts, minecraft)."
 
     def add_arguments(self, parser):
-        parser.add_argument("--folders", nargs="+", default=["accounts", "core"], help="List of folders to compile translations for")
+        parser.add_argument(
+            "--folders",
+            nargs="+",
+            default=["accounts", "minecraft"],
+            help="List of app folders to compile translations for",
+        )
 
     def handle(self, *args, **options):
-        folders = options["folders"]
         base = Path.cwd()
+        folders = options["folders"]
 
-        self.stdout.write(self.style.NOTICE(f"Compiling translations for folders: {', '.join(folders)}"))
+        self.stdout.write(self.style.NOTICE(
+            f"Compiling translations for folders: {', '.join(folders)}"
+        ))
+
+        compiled = 0
+        compile_cmd = CompileMessagesCommand()
 
         for folder in folders:
             app_path = base / folder
-            if not app_path.exists():
-                self.stdout.write(self.style.WARNING(f"[skip] {folder} not found"))
-                continue
-
             locale_dir = app_path / "locale"
+
             if not locale_dir.exists():
                 self.stdout.write(self.style.WARNING(f"[skip] no locale/ in {folder}/"))
                 continue
 
-            self.stdout.write(self.style.NOTICE(f"[run] compilemessages in {folder}/locale"))
+            self.stdout.write(self.style.NOTICE(f"[run] compiling {folder}/locale"))
 
-            cmd = [
-                sys.executable,
-                str(base / "manage.py"),
-                "compilemessages",
-            ]
+            compile_cmd.handle(
+                locale=None,
+                exclude=[],
+                ignore_patterns=[],
+                verbosity=1,
+                settings=None,
+                pythonpath=None,
+                traceback=False,
+                no_color=False,
+                force_color=False,
+                locale_paths=[str(locale_dir)],
+                fuzzy=False,
+            )
 
-            subprocess.run(cmd, check=True, cwd=locale_dir)
+            compiled += 1
 
-        self.stdout.write(self.style.SUCCESS("[INFO] compilemessages completed successfully"))
+        if compiled == 0:
+            self.stdout.write(self.style.WARNING("No locales compiled."))
+        else:
+            self.stdout.write(self.style.SUCCESS(f"[INFO] compiled {compiled} folder(s) successfully"))

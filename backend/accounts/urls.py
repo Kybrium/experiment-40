@@ -1,7 +1,8 @@
 from django.urls import path
 from accounts.views import (
     UserView, CookieTokenObtainPairView, LogoutView,
-    CookieTokenRefreshView, CookieTokenVerifyView
+    CookieTokenRefreshView, CookieTokenVerifyView,
+    GameTokenView
 )
 
 urlpatterns = [
@@ -14,6 +15,9 @@ urlpatterns = [
 
     # User
     path("me/", UserView.as_view(), name="me"),
-    path("register/", UserView.as_view(), name="register_user")
+    path("register/", UserView.as_view(), name="register_user"),
+
+    # Game Token
+    path('game-token/', GameTokenView.as_view(), name='game-token')
     
 ]

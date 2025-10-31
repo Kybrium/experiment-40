@@ -1,5 +1,7 @@
+import secrets
 import factory
-from accounts.models import User
+from accounts.models import User, GameToken
+
 
 
 class UserFactory(factory.django.DjangoModelFactory):
@@ -16,3 +18,18 @@ class UserFactory(factory.django.DjangoModelFactory):
     last_name = factory.Faker("last_name")
 
     password = factory.PostGenerationMethodCall("set_password", "StrongPass123")
+
+
+class GameTokenFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for GameToken.
+    By default: creates a new user and a unique secure token value.
+    """
+    class Meta:
+        model = GameToken
+
+    user = factory.SubFactory(UserFactory)
+
+    value = factory.LazyFunction(lambda: secrets.token_urlsafe(16))
+
+    is_active = True

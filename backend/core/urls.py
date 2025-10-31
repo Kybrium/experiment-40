@@ -30,5 +30,6 @@ urlpatterns = [
 
     # Apps
     path("api/accounts/", include("accounts.urls")),
+    path("api/minecraft/", include("minecraft.urls")),
     
 ]

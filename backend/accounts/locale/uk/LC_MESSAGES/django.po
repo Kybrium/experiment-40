@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-28 14:16+0200\n"
+"POT-Creation-Date: 2025-10-31 19:12+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,34 +20,47 @@ msgstr ""
 "11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % "
 "100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || "
 "(n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
-#: .\accounts\serializers.py:15
+
+#: accounts/serializers.py:16
 msgid "Creation is not supported for this endpoint."
 msgstr "Створення не підтримується для цього ендпоінта."
 
-#: .\accounts\serializers.py:18
+#: accounts/serializers.py:19
 msgid "Update is not supported for this endpoint."
 msgstr "Оновлення не підтримується для цього ендпоінта."
 
-#: .\accounts\serializers.py:22
+#: accounts/serializers.py:23
 msgid "Email is already in use."
 msgstr "Електронна адреса вже використовується."
 
-#: .\accounts\serializers.py:23
+#: accounts/serializers.py:24
 msgid "Username is taken."
 msgstr "Ім’я користувача вже зайняте."
 
-#: .\accounts\serializers.py:33
+#: accounts/serializers.py:34
 msgid "Passwords do not match."
 msgstr "Паролі не збігаються."
 
-#: .\accounts\views.py:43
+#: accounts/serializers.py:58 accounts/serializers.py:61
+msgid "GameTokenSerializer is read-only."
+msgstr "GameTokenSerializer доступний лише для читання."
+
+#: accounts/views.py:44
 msgid "Refresh token missing"
 msgstr "Відсутній токен оновлення."
 
-#: .\accounts\views.py:66
+#: accounts/views.py:67
 msgid "No access token"
 msgstr "Відсутній токен доступу."
 
-#: .\accounts\views.py:77
+#: accounts/views.py:80
 msgid "Logged out"
 msgstr "Вихід виконано."
+
+#: accounts/views.py:136
+msgid ""
+"You have reached your token limit. Purchase more slots to generate "
+"additional tokens."
+msgstr ""
+"Ви досягли свого ліміту токенів. Придбайте більше слотів, щоб створити "
+"додаткові токени."
