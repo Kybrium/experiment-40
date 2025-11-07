@@ -1,3 +1,5 @@
+'use client';
+
 import { baseUrl } from "@/lib/constants";
 
 let isRefreshing = false;

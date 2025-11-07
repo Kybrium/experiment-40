@@ -1,5 +1,6 @@
 'use client';
 
+import NavBarPublic from "@/components/general/NavBarPublic";
 import { useTranslation } from "react-i18next";
 
 export default function Home() {
@@ -8,6 +9,8 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-background centered-display">
+
+      <NavBarPublic />
 
       {/* HEADER */}
       <section className="centered-display w-full min-h-screen bg-cover bg-center" style={{ backgroundImage: "url('/landing-background.png')" }}>

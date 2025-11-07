@@ -1,3 +1,5 @@
+'use client';
+
 export type Mode = "DEV" | "TEST" | "STAGING" | "PRODUCTION";
 
 export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME ?? "Experiment 40";

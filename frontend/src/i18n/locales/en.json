@@ -54,5 +54,10 @@
         "cta_join": "Join the Experiment",
         "cta_learn_more": "Learn More",
         "flavor_line": "Build alliances, wage wars, found civilizations — the world remembers everything you do."
+    },
+    "NavBarPublic": {
+        "home": "Home",
+        "wiki": "Wiki",
+        "play": "Play"
     }
 }

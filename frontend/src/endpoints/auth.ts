@@ -1,3 +1,5 @@
+'use client';
+
 import { apiFetch } from "@/lib/apiFetch";
 import { baseUrl } from "@/lib/constants"
 import { getCookie } from "@/lib/cookies";
