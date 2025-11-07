@@ -10,5 +10,5 @@ export const locales = {
 export const publicNav = {
     home: "/",
     wiki: "/wiki",
-    auth: "/auth",
+    auth: "/dashboard",
 }

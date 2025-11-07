@@ -46,7 +46,7 @@ export default function Home() {
 
         {/* CTA */}
         <div className="mt-16 flex flex-wrap items-center justify-center gap-4">
-          <a href="/auth" className="btn btn-primary glow-pulse">{t('cta_join')}</a>
+          <a href="/dashboard" className="btn btn-primary glow-pulse">{t('cta_join')}</a>
           <a href="/wiki" className="btn btn-outline">{t('cta_learn_more')}</a>
         </div>
 
