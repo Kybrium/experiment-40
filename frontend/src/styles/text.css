@@ -19,12 +19,12 @@
 
     /* Body / main text */
     .main-text {
-    @apply font-sans text-text-muted text-lg leading-relaxed max-w-2xl;
+    @apply font-sans text-text-muted text-lg leading-relaxed max-w-5xl;
     }
 
     /* Paragraph / secondary content */
     .paragraph {
-    @apply font-sans text-text-muted text-base leading-relaxed max-w-2xl;
+    @apply font-sans text-text-muted text-base leading-relaxed max-w-5xl;
     }
 
     /* Highlighted / accent word inside text */
