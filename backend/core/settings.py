@@ -22,6 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "dev-secret")
 MINECRAFT_API_KEY = os.getenv('MINECRAFT_API_KEY', "super-secret-long-string")
 MAINTENANCE_MODE = os.getenv('MAINTENANCE_MODE') == 'True'
+LANGUAGES = os.getenv("DJANGO_LANGUAGES", "en,uk").split(",")
 
 DEBUG = os.getenv("DJANGO_DEBUG", os.getenv("DJANGO-DEBUG", "true")).lower() == "true"
 HOSTS = os.getenv("DJANGO_HOSTS", "localhost,127.0.0.1").split(",")
@@ -49,6 +50,7 @@ INSTALLED_APPS = [
     'accounts',
     'infrastructure',
     'minecraft',
+    'news',
 ]
 
 MIDDLEWARE = [
