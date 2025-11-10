@@ -41,5 +41,23 @@
             "password_max": "Max 128 characters.",
             "password_complexity": "Min 8 chars, include letters and numbers."
         }
+    },
+    "Landing": {
+        "description": "Virtual civilization experiment",
+        "info": "Welcome to Experiment-40 — a unique project designed to test socio-political concepts within a limitless virtual world. We aim to recreate human civilization from its very beginnings under realistic conditions to explore how various social, political, and individual traits shape the environment and influence development. Experiment-40 serves as a platform for researchers, sociologists, political scientists, and curious minds to test their ideas in a simulated society. Project administrators will not interfere with experiments unless a technical necessity arises. If you want to be part of this endeavor, register and join our server to begin your journey.",
+        "one_life": "ONE LIFE",
+        "no_rules": "NO RULES",
+        "no_safe_zones": "NO SAFE ZONES",
+        "feature_one_life_desc": "Every action has consequence. Death is final. Legacy is earned, not reset.",
+        "feature_no_rules_desc": "No commands, no moderators, no invisible hand — just people shaping order from chaos.",
+        "feature_no_safe_zones_desc": "No land-claim plugins or shields — only real relationships, trust, and consequences.",
+        "cta_join": "Join the Experiment",
+        "cta_learn_more": "Learn More",
+        "flavor_line": "Build alliances, wage wars, found civilizations — the world remembers everything you do."
+    },
+    "NavBarPublic": {
+        "home": "Home",
+        "wiki": "Wiki",
+        "play": "Play"
     }
 }

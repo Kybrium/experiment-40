@@ -4,10 +4,20 @@ import { AnimatePresence, motion } from "framer-motion";
 import StarsBg from "@/components/bg/StarsBg";
 import LoginModal from "@/components/auth/LoginModal";
 import RegistrationModal from "@/components/auth/RegistrationModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { useRouter } from "next/navigation";
 
 export default function Auth() {
     const [isLogin, setIsLogin] = useState(true);
+    const router = useRouter();
+    const { hasCachedUser } = useCurrentUser({ skip: true });
+
+    useEffect(() => {
+        if (hasCachedUser()) {
+            router.replace("/dashboard");
+        }
+    }, [hasCachedUser, router]);
 
     return (
         <main className="relative min-h-screen centered-display py-8 overflow-hidden">

@@ -20,6 +20,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [DEVELOPMENT] Merge No.15 - 10.11.2025
+- Designed landing page
+- Added LanguageSwitcher component
+- Added tests
+- Added translation
+- Improved protected route and auth flow on frontend
+
+---
+
 ## [DEVELOPMENT] Merge No.14 - 28.10.2025
 - Initialized i18n on backend
 - Translated accounts

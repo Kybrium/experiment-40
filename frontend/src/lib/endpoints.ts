@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * Converts Django REST Framework error objects into a flat readable string.
  * 

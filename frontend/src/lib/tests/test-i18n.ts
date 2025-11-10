@@ -1,3 +1,5 @@
+'use client';
+
 import i18next, { i18n as I18nType } from 'i18next';
 import { initReactI18next } from 'react-i18next';
 

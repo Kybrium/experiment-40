@@ -1,3 +1,5 @@
+'use client';
+
 import { apiFetch } from "@/lib/apiFetch";
 import { baseUrl } from "@/lib/constants"
 import { getCookie } from "@/lib/cookies";
@@ -15,7 +17,7 @@ import { LoginForm, RegistrationForm } from "@/types/auth";
  */
 export const registerUser = async (data: RegistrationForm) => {
     const csrftoken = getCookie("csrftoken");
-    const res = await apiFetch(`${baseUrl}/api/accounts/register/`, {
+    const res = await fetch(`${baseUrl}/api/accounts/register/`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -50,7 +52,7 @@ export const registerUser = async (data: RegistrationForm) => {
  */
 export const loginUser = async (data: LoginForm) => {
     const csrftoken = getCookie("csrftoken");
-    const res = await apiFetch(`${baseUrl}/api/accounts/token/`, {
+    const res = await fetch(`${baseUrl}/api/accounts/token/`, {
         method: 'POST',
         headers: {
             "Content-Type": "application/json",

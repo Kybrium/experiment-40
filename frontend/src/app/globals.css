@@ -5,3 +5,9 @@
 @import "./../styles/text.css";
 @import "./../styles/btns.css";
 @import "./../styles/inputs.css";
+
+
+/* GLOBAL SETTINGS BEFORE PAGE IS EVEN LOADED */
+body {
+    @apply bg-background;
+}

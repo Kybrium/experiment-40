@@ -6,6 +6,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { I18nextProvider } from 'react-i18next';
 import i18n from '../i18n/config';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 export default function Providers({ children }: { children: ReactNode }) {
     const [queryClient] = useState(() => new QueryClient());
@@ -13,6 +14,7 @@ export default function Providers({ children }: { children: ReactNode }) {
     return (
         <I18nextProvider i18n={i18n}>
             <QueryClientProvider client={queryClient}>
+                <ReactQueryDevtools initialIsOpen={false} />
                 {children}
                 <ToastContainer
                     position="top-right"
